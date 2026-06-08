@@ -93,17 +93,3 @@
     color: white;
   }
 }
-
-/* COMPONENTS & LAYOUT */
-@import "./styles/buttons.css";
-@import "./styles/panels.css";
-@import "./styles/effects.css";
-@import "./styles/animations.css";
-
-/* SPECIFIC FIXES */
-@import "./styles/scrollbar.css";
-@import "./styles/lessons.css";
-@import "./Home.css";
-@import "../components/Navbar.css";
-@import "../index.css";
-
