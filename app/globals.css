@@ -95,7 +95,6 @@
 }
 
 /* COMPONENTS & LAYOUT */
-@import "./styles/cards.css";
 @import "./styles/buttons.css";
 @import "./styles/panels.css";
 @import "./styles/effects.css";
