@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # llm-viz (cloned repo + static build)
-node_modules_old/
-node_modules/
+/llm-viz/
+/public/llm-viz/
