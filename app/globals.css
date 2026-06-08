@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/* THEME & VARIABLES (CACHE BUST 3) */
+@theme {
+  --color-bg-page: var(--bg-primary);
+  --color-bg-card: var(--bg-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent-primary: var(--accent-vibrant);
+  --color-accent-soft: var(--accent-soft);
+  --color-border-light: var(--border-color);
+
+  --shadow-premium: var(--shadow-main);
+}
+
+[data-theme="klight"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #111111;
+  --text-secondary: #333333;
+  --accent-vibrant: #0066ff;
+  --accent-soft: #cce5ff;
+  --border-color: #e0e0e0;
+  --shadow-main: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+:root, [data-theme="dark"] {
+  /* PURE DARK THEME (Default) */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-elevated: #111111;
+
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+
+  --accent-vibrant: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.1);
+  --accent-glow: rgba(255, 255, 255, 0.2);
+  --accent-secondary: #06b6d4;
+
+  --nav-bg: rgba(0, 0, 0, 0.85);
+  --shadow-main: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+:root.light, html.light, body.light, .light, [data-theme='light'] {
+  /* PURE LIGHT THEME (High Contrast) */
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --text-muted: #27272a;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f5;
+  --bg-elevated: #e4e4e7;
+
+  --border-color: rgba(0, 0, 0, 0.15);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+
+  --accent-vibrant: #000000;
+  --accent-soft: rgba(0, 0, 0, 0.05);
+  --accent-glow: rgba(0, 0, 0, 0.08);
+  --accent-secondary: #0ea5e9;
+
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --shadow-main: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  --shadow-premium: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+}
+:root {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --mouse-x-pc: 50%;
+  --mouse-y-pc: 50%;
+}
+
+@layer base {
+  html,
+  body {
+    @apply antialiased m-0 p-0;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: #6366f1;
+    color: white;
+  }
+}
+
+/* COMPONENTS & LAYOUT */
+@import "./styles/cards.css";
+@import "./styles/buttons.css";
+@import "./styles/panels.css";
+@import "./styles/effects.css";
+@import "./styles/animations.css";
+
+/* SPECIFIC FIXES */
+@import "./styles/scrollbar.css";
+@import "./styles/lessons.css";
+@import "./Home.css";
+@import "../components/Navbar.css";
+@import "../index.css";
+

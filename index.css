@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+:root {
+  --clr-blue: #1890ff;
+  --clr-green: #01c3a8;
+  --clr-orange: #ffb741;
+  --clr-red: #a63d2a;
+  --bg-dark: #121214;
+  --bg-footer: #151419;
+  --color-white: #fff;
+  --color-gray-light: #ddd;
+  --color-gray-medium: #363636;
+  --color-gray-dark: #292929;
+  --color-gray-very-dark: #222127;
+}
+
+/* Premium Card Styles */
+.card {
+  background: rgba(26, 26, 30, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 24px;
+  color: var(--color-white);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Accent Borders based on color class */
+.card.green::after {
+  background-color: var(--clr-green);
+}
+.card.orange::after {
+  background-color: var(--clr-orange);
+}
+.card.red::after {
+  background-color: var(--clr-red);
+}
+.card.blue::after {
+  background-color: var(--clr-blue);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header .date {
+  font-size: 11px;
+  color: var(--color-gray-light);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.card-header svg {
+  color: var(--color-gray-light);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.card-header svg:hover {
+  color: var(--color-white);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card-body h3 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+  color: var(--color-white);
+}
+
+.card-body p {
+  font-size: 14px;
+  color: var(--color-gray-light);
+  line-height: 1.6;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.progress span {
+  font-weight: 600;
+  color: var(--color-gray-light);
+  opacity: 0.6;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  border-radius: 9999px;
+  width: var(--progress-width, 0%);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card.green .progress-bar::before {
+  background-color: var(--clr-green);
+  box-shadow: 0 0 10px rgba(1, 195, 168, 0.4);
+}
+.card.orange .progress-bar::before {
+  background-color: var(--clr-orange);
+  box-shadow: 0 0 10px rgba(255, 183, 65, 0.4);
+}
+.card.red .progress-bar::before {
+  background-color: var(--clr-red);
+  box-shadow: 0 0 10px rgba(166, 61, 42, 0.4);
+}
+.card.blue .progress-bar::before {
+  background-color: var(--clr-blue);
+  box-shadow: 0 0 10px rgba(24, 144, 255, 0.4);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 20px;
+  margin-top: auto;
+}
+
+.card-footer ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.card-footer ul li {
+  margin-right: -10px;
+  transition: transform 0.2s ease, z-index 0s;
+}
+
+.card-footer ul li:hover {
+  transform: translateY(-4px) scale(1.1);
+  z-index: 10;
+}
+
+.card-footer ul li img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #1a1a1e;
+  object-fit: cover;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--color-gray-light);
+  border: 2px solid #1a1a1e;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add:hover {
+  background-color: var(--color-white);
+  color: #121214;
+  transform: scale(1.05);
+}
+
+.btn-countdown {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.card.green .btn-countdown {
+  color: var(--clr-green);
+  background-color: rgba(1, 195, 168, 0.08);
+  border: 1px solid rgba(1, 195, 168, 0.15);
+}
+.card.green .btn-countdown:hover {
+  background-color: var(--clr-green);
+  color: #121214;
+  box-shadow: 0 0 15px rgba(1, 195, 168, 0.3);
+}
+
+.card.orange .btn-countdown {
+  color: var(--clr-orange);
+  background-color: rgba(255, 183, 65, 0.08);
+  border: 1px solid rgba(255, 183, 65, 0.15);
+}
+.card.orange .btn-countdown:hover {
+  background-color: var(--clr-orange);
+  color: #121214;
+  box-shadow: 0 0 15px rgba(255, 183, 65, 0.3);
+}
+
+.card.red .btn-countdown {
+  color: var(--clr-red);
+  background-color: rgba(166, 61, 42, 0.08);
+  border: 1px solid rgba(166, 61, 42, 0.15);
+}
+.card.red .btn-countdown:hover {
+  background-color: var(--clr-red);
+  color: var(--color-white);
+  box-shadow: 0 0 15px rgba(166, 61, 42, 0.3);
+}
+
+.card.blue .btn-countdown {
+  color: var(--clr-blue);
+  background-color: rgba(24, 144, 255, 0.08);
+  border: 1px solid rgba(24, 144, 255, 0.15);
+}
+.card.blue .btn-countdown:hover {
+  background-color: var(--clr-blue);
+  color: var(--color-white);
+  box-shadow: 0 0 15px rgba(24, 144, 255, 0.3);
+}

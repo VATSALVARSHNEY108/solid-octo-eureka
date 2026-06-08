@@ -1,0 +1,4 @@
+
+> ctrl-alt-learn@0.1.0 dev:all
+> concurrently "npm run dev" "npm run dev:backend"
+

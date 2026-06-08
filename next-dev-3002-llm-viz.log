@@ -1,0 +1,13 @@
+
+> dev
+> next dev -p 3002 --hostname 127.0.0.1
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://127.0.0.1:3002
+- Network:       http://127.0.0.1:3002
+✓ Ready in 688ms
+Creating turbopack project {
+  dir: 'C:\\Users\\VATSAL VARSHNEY\\OneDrive\\Desktop\\Think++\\llm-viz',
+  testMode: true
+}
+

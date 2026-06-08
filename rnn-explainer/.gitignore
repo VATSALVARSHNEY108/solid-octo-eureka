@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+public/bundle.*
+public/assets/js/bundle.*
+public/assets/css/bundle.*
+*.swp
+deploy-gh-page.sh
+local-build/
+tiny-vgg/data/
+tiny-vgg/__MACOSX/
+imdb/resources/
+imdb/backup/
+tiny-vgg/localModel/
+.vscode/

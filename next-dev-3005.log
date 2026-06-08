@@ -1,0 +1,11 @@
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3005
+- Network:       http://192.168.31.190:3005
+- Environments: .env
+✓ Ready in 1030ms
+Creating turbopack project {
+  dir: 'C:\\Users\\VATSAL VARSHNEY\\OneDrive\\Desktop\\Think++',
+  testMode: true
+}
+
+○ Compiling / ...

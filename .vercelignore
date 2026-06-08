@@ -1,0 +1,19 @@
+# .vercelignore
+# Exclude large static assets that already exceed Vercel's 100 MB limit
+public/assets/
+public/ganlab/
+public/ganlab-site/
+public/tensorflow-playground-site/
+public/transformer-explainer-site/
+public/**/*.png
+public/**/*.jpg
+# Exclude the entire public folder if further reduction needed
+public/
+
+# Exclude Next.js build output and caches (Vercel builds these on its servers)
+.next/**
+.next/cache/
+
+# Exclude other oversized generated files (optional)
+build_output.txt
+*.log

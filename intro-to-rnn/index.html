@@ -1,0 +1,1627 @@
+<html>
+
+<head>
+    <style>
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            color: #dfdfdf;
+            margin-bottom: 0;
+        }
+        body {
+            background:#eee;    
+        }
+
+        .header {
+            top: 0;
+            width: 100%;
+            height: 150px;
+            color: black;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+            padding-top: 20px;
+            margin-left: 50px;
+        }
+
+        .header h1 {
+            font-size: 60px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            margin-left: 0;
+        }
+
+        h2 {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+            font-size: 30px;
+            margin-left: 50px;
+        }
+
+        section {
+            font-family: Georgia, "Times New Roman", serif;
+            width: 700px;
+            font-size: 18px;
+            margin-left: 50px;
+            line-height: 30px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        code {
+            padding: 2px 5px;
+            font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+            background: #ddd;
+        }
+
+        .comment {
+            color: #688e49;
+        }
+
+        .for {
+            color: #b680ba;
+        }
+
+        .in {
+            color: #5b94cf;
+        }
+
+        .array {
+            font: bold;
+        }
+
+        .array-bracket {
+            font-family: sans-serif;
+            font-size: 4em;
+        }
+
+        .array-name {
+            font-family: sans-serif;
+            font-size: 1.5em;
+        }
+
+        .active-line {
+            background: #8e8f32;
+            color: #ddd;
+        }
+
+        .controls-container {
+            background: #1e1e1e;
+            box-shadow: 0px 4px 5px black;
+            width: 216px;
+            height: 32px;
+        }
+
+
+        .controls-container button {
+            background: transparent;
+            border: none;
+            width: 28px;
+            height: 28px;
+            float: left;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 0 20px;
+        }
+
+        .controls-container button:hover {
+            cursor: pointer;
+        }
+
+        .controls-container .play {
+            background-size: 20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGRlZnM+PHN0eWxlPi5pY29uLWNhbnZhcy10cmFuc3BhcmVudCwuaWNvbi12cy1vdXR7ZmlsbDojZjZmNmY2O30uaWNvbi1jYW52YXMtdHJhbnNwYXJlbnR7b3BhY2l0eTowO30uaWNvbi12cy1hY3Rpb24tZ3JlZW57ZmlsbDojMzg4YTM0O308L3N0eWxlPjwvZGVmcz48dGl0bGU+Y29udGludWU8L3RpdGxlPjxnIGlkPSJjYW52YXMiPjxwYXRoIGNsYXNzPSJpY29uLWNhbnZhcy10cmFuc3BhcmVudCIgZD0iTTE2LDBWMTZIMFYwWiIvPjwvZz48ZyBpZD0ib3V0bGluZSIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7Ij48cGF0aCBjbGFzcz0iaWNvbi12cy1vdXQiIGQ9Ik0xNC4zMzQsOCwzLjY2NywxNkgzVjBoLjY2N1oiLz48L2c+PGcgaWQ9Imljb25CZyI+PHBhdGggY2xhc3M9Imljb24tdnMtYWN0aW9uLWdyZWVuIiBkPSJNNCwxLjV2MTNMMTIuNjY3LDgsNCwxLjVaIi8+PC9nPjwvc3ZnPg==');
+            border: 1px solid transparent;
+            -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
+            -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
+            transition: border 0.1s linear, box-shadow 0.1s linear;
+        }
+
+        .controls-container .back {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGQ9Ik02IDEzQzYgMTMuMzk1NiA2LjExNzMgMTMuNzgyMiA2LjMzNzA2IDE0LjExMTFDNi41NTY4MiAxNC40NCA2Ljg2OTE4IDE0LjY5NjQgNy4yMzQ2MyAxNC44NDc4QzcuNjAwMDggMTQuOTk5MSA4LjAwMjIyIDE1LjAzODcgOC4zOTAxOCAxNC45NjE2QzguNzc4MTQgMTQuODg0NCA5LjEzNDUxIDE0LjY5MzkgOS40MTQyMSAxNC40MTQyQzkuNjkzOTIgMTQuMTM0NSA5Ljg4NDQgMTMuNzc4MSA5Ljk2MTU3IDEzLjM5MDJDMTAuMDM4NyAxMy4wMDIyIDkuOTk5MTMgMTIuNjAwMSA5Ljg0Nzc2IDEyLjIzNDZDOS42OTYzOCAxMS44NjkyIDkuNDQwMDQgMTEuNTU2OCA5LjExMTE0IDExLjMzNzFDOC43ODIyNCAxMS4xMTczIDguMzk1NTYgMTEgOCAxMUM3LjQ2OTU3IDExIDYuOTYwODYgMTEuMjEwNyA2LjU4NTc5IDExLjU4NThDNi4yMTA3MSAxMS45NjA5IDYgMTIuNDY5NiA2IDEzWiIgZmlsbD0iIzQyNDI0MiIvPgo8cGF0aCBkPSJNMC45OTk5OTggMlY4SDdWNkg0Ljc2M0M1LjI3MzAzIDUuMjMzMjMgNi4wMDY5MyA0LjY0MjI0IDYuODY0ODEgNC4zMDc0MkM3LjcyMjY5IDMuOTcyNjEgOC42NjI5IDMuOTEwMjQgOS41NTc0OSA0LjEyODgxQzEwLjQ1MjEgNC4zNDczNyAxMS4yNTc2IDQuODM2MjYgMTEuODY0NCA1LjUyODkzQzEyLjQ3MTMgNi4yMjE2MSAxMi44NSA3LjA4NDQzIDEyLjk0OSA4SDE0Ljk3NUMxNC44NzMzIDYuNjM1MiAxNC4zNDIyIDUuMzM3NiAxMy40NTc5IDQuMjkzMTJDMTIuNTczNiAzLjI0ODYzIDExLjM4MTMgMi41MTA4NiAxMC4wNTIgMi4xODU0OUM4LjcyMjYyIDEuODYwMTIgNy4zMjQ0IDEuOTYzODUgNi4wNTc2MyAyLjQ4MTgzQzQuNzkwODUgMi45OTk4MSAzLjcyMDUzIDMuOTA1NDUgMyA1LjA2OVYySDAuOTk5OTk4WiIgZmlsbD0iIzAwNTM5QyIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSJ3aGl0ZSIgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTYgMCkiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4=');
+            margin-left: 20px;
+        }
+
+        .controls-container .stop {
+            background-size: 20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGRlZnM+PHN0eWxlPi5pY29uLWNhbnZhcy10cmFuc3BhcmVudCwuaWNvbi12cy1vdXR7ZmlsbDojZjZmNmY2O30uaWNvbi1jYW52YXMtdHJhbnNwYXJlbnR7b3BhY2l0eTowO30uaWNvbi12cy1hY3Rpb24tcmVke2ZpbGw6I2ExMjYwZDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPnN0b3A8L3RpdGxlPjxnIGlkPSJjYW52YXMiPjxwYXRoIGNsYXNzPSJpY29uLWNhbnZhcy10cmFuc3BhcmVudCIgZD0iTTE2LDBWMTZIMFYwWiIvPjwvZz48ZyBpZD0ib3V0bGluZSIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7Ij48cGF0aCBjbGFzcz0iaWNvbi12cy1vdXQiIGQ9Ik0xNCwyVjE0SDJWMloiLz48L2c+PGcgaWQ9Imljb25CZyI+PHBhdGggY2xhc3M9Imljb24tdnMtYWN0aW9uLXJlZCIgZD0iTTEzLDNWMTNIM1YzWiIvPjwvZz48L3N2Zz4=');
+        }
+
+        .controls-container .forward {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+CjxwYXRoIGQ9Ik02IDEzQzYgMTMuMzk1NiA2LjExNzMgMTMuNzgyMiA2LjMzNzA2IDE0LjExMTFDNi41NTY4MiAxNC40NCA2Ljg2OTE4IDE0LjY5NjQgNy4yMzQ2MyAxNC44NDc4QzcuNjAwMDggMTQuOTk5MSA4LjAwMjIyIDE1LjAzODcgOC4zOTAxOCAxNC45NjE2QzguNzc4MTQgMTQuODg0NCA5LjEzNDUxIDE0LjY5MzkgOS40MTQyMSAxNC40MTQyQzkuNjkzOTIgMTQuMTM0NSA5Ljg4NDQgMTMuNzc4MSA5Ljk2MTU3IDEzLjM5MDJDMTAuMDM4NyAxMy4wMDIyIDkuOTk5MTMgMTIuNjAwMSA5Ljg0Nzc2IDEyLjIzNDZDOS42OTYzOCAxMS44NjkyIDkuNDQwMDQgMTEuNTU2OCA5LjExMTE0IDExLjMzNzFDOC43ODIyNCAxMS4xMTczIDguMzk1NTYgMTEgOCAxMUM3LjQ2OTU3IDExIDYuOTYwODYgMTEuMjEwNyA2LjU4NTc5IDExLjU4NThDNi4yMTA3MSAxMS45NjA5IDYgMTIuNDY5NiA2IDEzWiIgZmlsbD0iIzQyNDI0MiIvPgo8cGF0aCBkPSJNMC45OTk5OTggMlY4SDdWNkg0Ljc2M0M1LjI3MzAzIDUuMjMzMjMgNi4wMDY5MyA0LjY0MjI0IDYuODY0ODEgNC4zMDc0MkM3LjcyMjY5IDMuOTcyNjEgOC42NjI5IDMuOTEwMjQgOS41NTc0OSA0LjEyODgxQzEwLjQ1MjEgNC4zNDczNyAxMS4yNTc2IDQuODM2MjYgMTEuODY0NCA1LjUyODkzQzEyLjQ3MTMgNi4yMjE2MSAxMi44NSA3LjA4NDQzIDEyLjk0OSA4SDE0Ljk3NUMxNC44NzMzIDYuNjM1MiAxNC4zNDIyIDUuMzM3NiAxMy40NTc5IDQuMjkzMTJDMTIuNTczNiAzLjI0ODYzIDExLjM4MTMgMi41MTA4NiAxMC4wNTIgMi4xODU0OUM4LjcyMjYyIDEuODYwMTIgNy4zMjQ0IDEuOTYzODUgNi4wNTc2MyAyLjQ4MTgzQzQuNzkwODUgMi45OTk4MSAzLjcyMDUzIDMuOTA1NDUgMyA1LjA2OVYySDAuOTk5OTk4WiIgZmlsbD0iIzAwNTM5QyIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSJ3aGl0ZSIgdHJhbnNmb3JtPSJtYXRyaXgoLTEgMCAwIDEgMTYgMCkiLz4KPC9jbGlwUGF0aD4KPC9kZWZzPgo8L3N2Zz4=');
+            transform: scaleX(-1);
+        }
+
+
+        .controls-container .play.active {
+            border-color: #DAA520;
+            -webkit-box-shadow: 0 0 5px #DAA520;
+            -moz-box-shadow: 0 0 5px #DAA520;
+            box-shadow: 0 0 5px #DAA520;
+        }
+    </style>
+</head>
+
+<body style="margin-left:0px; margin-right:0px;">
+
+    <div class="header">
+        <h1>Visualizing RNNs</h1>
+        <h2><a href='https://twitter.com/ThisIsJoshVarty'>Josh Varty</a></h2>
+    </div>
+
+    <section>
+        After reading about the <a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">unreasonable
+        effectiveness of recurrent neural networks</a> I know:
+            <ul>
+                <li>They work with sequences (eg. stock data, natural language)</li>
+                <li>We can train them with backprop, the same way we do with convolutional nets</li>
+                <li>They are flexible and work with a variety of structures</li>
+                <ul>
+                    <li><strong>One-to-many</strong>: Take an image and return a caption for it.</li>
+                    <li><strong>Many-to-one</strong>: Take a movie review and return if it's positive or negative</li>
+                    <li><strong>Many-to-Many</strong>: Take an English sentence and return a Spanish sentence</li>
+                </ul>
+
+            </ul>
+            
+    </section>
+    <section>
+        One thing I struggle with is visualizing what's actually going on.
+        In particular I have a lot of trouble reconciling <strong>this code:</strong>
+    </section>
+
+    <section>
+        <script src="https://gist.github.com/JoshVarty/03e55e39c0fda828c08c6d8730c81368.js"></script>
+    </section>
+
+    <section>
+        with <strong>this image:</strong>
+    </section>
+
+    <section>
+        <img width="500" src="https://i.imgur.com/Iveichs.jpg" />
+    </section>
+
+    <section>
+        To help me understand exactly what's going on I want visualize each step of the forward pass. What do our
+        inputs look like? What do our weights look like? How do things look at the beginning of training when compared
+        to the end?
+    </section>
+
+    <section>
+        In order to tackle this we're going to have to use very small weight matrices or things
+        will get out of hand very quickly. Even Andrej Karpathy's simple <a
+            href="https://gist.github.com/karpathy/d4dee566867f8291f086">Min-Char RNN</a> has weight matrices with
+        <strong>thousands</strong> of parameters. No matter how hard we try, we won't be able to put all those numbers
+        on screen.
+    </section>
+
+    <h2>An Untrained RNN</h2>
+    <section>
+        With simplicity in mind, instead of predicting the next character in English text (as Min-Char RNN does), let’s build a network that predicts the next
+        output in the sequence: <br />
+        <code>1</code>,<code>0</code>,<code>1</code>,<code>0</code>,<code>1</code>,<code>0</code>,<code>1</code>,<code>0</code>,<code>1</code>,<code>0</code>&nbsp;<code>...</code>&nbsp;<br/>
+        This
+        seems simple. Maybe even <strong>too</strong> simple, but a sequence like this will allow us to have small weight matrices, the largest of
+        which will be just <code>3x3</code>.
+    </section>
+
+    <section>
+        For this visualization we’ll use a <a
+            href="https://github.com/JoshVarty/IntroToRNNs/blob/master/rnn.py">modified</a> version of Min-Char RNN.
+        Our <code>vocab_size</code> is just <code>2</code> (each input character is <code>1</code> or <code>0</code>) and since we’re predicting such a simple pattern we’ll use a <code>hidden_size</code> of <code>3</code>.
+    </section>
+
+    <section>
+        Our network is fed an input of <code>1</code>,<code>0</code>,<code>1</code>,<code>0</code>&nbsp;and is tasked
+        with predicting the target output sequence <code>0</code>,<code>1</code>,<code>0</code>,<code>1</code>, one
+        character at a time. Since our network is untrained, note that it outputs probabilities of roughly
+        <code>0.50</code>&nbsp;at each time step.
+    </section>
+
+    <section>
+        Click "Play" below or step through at your own pace:
+    </section>
+
+    <pre>
+<span id="untrained-line0"><span class='comment'>#Initialize weights and biases</span></span>
+<span id="untrained-line1"><span class='input_weights_U'>input_weights_U</span> = np.random.randn(hidden_size, vocab_size) * 0.01</span>
+<span id="untrained-line2"><span class='hidden_weights_W'>hidden_weights_W</span> = np.random.randn(hidden_size, hidden_size) * 0.01</span>
+<span id="untrained-line3"><span class='hidden_bias'>hidden_bias</span> = np.zeros((hidden_size, 1))</span>
+<span id="untrained-line4"><span class='output_weights_V'>output_weights_V</span> = np.random.randn(vocab_size, hidden_size) * 0.01</span>
+<span id="untrained-line5"><span class='output_bias'>output_bias</span> = np.zeros((vocab_size, 1))</span>
+<span id="untrained-line6"><span class='comment'>#Forward pass</span></span>
+<span id="untrained-line7">xs, hidden_states, outputs, probabilities = {}, {}, {}, {}</span>
+<span id="untrained-line8"><span class='loss'>loss</span> = 0</span>
+<span id="untrained-line9">hidden_states[-1] = np.copy(hidden_state_prev)</span>
+<span id="untrained-line10"><span class="for">for</span> t <span class="in">in</span> range(len(inputs)): </span>
+    <span id="untrained-line11"><span class="comment"># one-hot-encoding the input character</span> </span>
+    <span id="untrained-line12"><span class='xs'>xs[t]</span> = np.zeros((vocab_size,1))  </span>
+    <span id="untrained-line13"><span class='character'>character</span> = inputs[t]</span>
+    <span id="untrained-line14"><span class='xs'>xs[t]</span>[character] = 1 </span>
+    <span id="untrained-line15"><span class='target'>target</span> = targets[t]</span>
+    <span id="untrained-line16"><span class="comment"># Compute hidden state </span></span>
+    <span id="untrained-line17"><span class='hidden_state'>hidden_states[t]</span> = np.tanh(<span class='input_weights_U'>input_weights_U</span> @ <span class='xs'>xs[t]</span> + <span class='hidden_weights_W'>hidden_weights_W</span> @ <span class='hidden_state_prev'>hidden_states[t-1]</span> + <span class='hidden_bias'>hidden_bias</span>) </span>
+    <span id="untrained-line18"><span class="comment"># Compute output and probabilities</span></span>
+    <span id="untrained-line19"><span class='outputs'>outputs[t]</span> = <span class='output_weights_v'>output_weights_V</span> @ <span class="hidden_state">hidden_states[t]</span> + <span class='output_bias'>output_bias</span></span>
+    <span id="untrained-line20"><span class='probabilities'>probabilities[t]</span> = np.exp(<span class='outputs'>outputs[t]</span>) / np.sum(np.exp(<span class='outputs'>outputs[t]</span>))</span>
+    <span id="untrained-line21"><span class="comment">#Compute cross-entropy loss</span></span>
+    <span id="untrained-line22"><span class='loss'>loss</span> += -np.log(<span class='probabilities'>probabilities[t]</span>[<span class='target'>target</span>,0]) </span></pre>
+    <div class="controls-container">
+        <button class="back" onclick="goBack('untrained')" title="Back"></button>
+        <button class="play" onclick="play('untrained')" title="Play"></button>
+        <button class="stop" onclick="pause('untrained')" title="Stop"></button>
+        <button class="forward" onclick="clearAndGoForward('untrained')" title="Next"></button>
+    </div>
+
+    <svg id="untrained-diagram" width=1500 height=540></svg>
+
+    <section>
+        This animation looks pretty cool but you probably won't learn much at first glance. Take a minute to match up the weights in the diagram with the weights in the code. You can hover over them and it will highlight the relationship for you.
+        If you're really feeling up for it, you could work out the matrix multiplications by hand.
+        The big takeaways here are:
+        <ul>
+            <li>Computing hidden state is most of the work</li>
+            <li>We use the same weights for every input of our forward pass</li>
+            <li><code>hidden_states[t-1]</code> changes as we go through each step</li>
+            <li>We output probabilities for the target character at each step</li>
+            <li>Since our network is untrained the output probabilities are:</li>
+            <ul>
+                <li>50% <code>0</code></li>
+                <li>50% <code>1</code></li>
+            </ul>
+        </ul>
+
+    </section>
+    <h2>A Trained RNN</h2>
+    <section>
+        So now that we've seen a network that doesn't work, let's take a look at one that does. After training our network with gradient descent (a visualization I'll save for another time) we're left with weights that look like:
+    </section>
+    <section>
+        <img src='https://i.imgur.com/dw0NO9k.png' />
+    </section>
+    <section>
+        So what happens when we run the network using these weights?
+    </section>
+
+    <pre>
+<span id="trained-line0"><span class='comment'>#Initialize weights and biases</span></span>
+<span id="trained-line1"><span class='input_weights_U'>input_weights_U</span> = ...  <span class="comment">#trained via gradient descent</span></span>
+<span id="trained-line2"><span class='hidden_weights_W'>hidden_weights_W</span> = ... <span class="comment">#trained via gradient descent</span></span>
+<span id="trained-line3"><span class='hidden_bias'>hidden_bias</span> = ...      <span class="comment">#trained via gradient descent</span></span>
+<span id="trained-line4"><span class='output_weights_V'>output_weights_V</span> = ... <span class="comment">#trained via gradient descent</span></span>
+<span id="trained-line5"><span class='output_bias'>output_bias</span> = ...      <span class="comment">#trained via gradient descent</span></span>
+<span id="trained-line6"><span class='comment'>#Forward pass</span></span>
+<span id="trained-line7">xs, hidden_states, outputs, probabilities = {}, {}, {}, {}</span>
+<span id="trained-line8"><span class='loss'>loss</span> = 0</span>
+<span id="trained-line9">hidden_states[-1] = np.copy(hidden_state_prev)</span>
+<span id="trained-line10"><span class="for">for</span> t <span class="in">in</span> range(len(inputs)): </span>
+    <span id="trained-line11"><span class="comment"># one-hot-encoding the input character</span> </span>
+    <span id="trained-line12"><span class='xs'>xs[t]</span> = np.zeros((vocab_size,1))  </span>
+    <span id="trained-line13"><span class='character'>character</span> = inputs[t]</span>
+    <span id="trained-line14"><span class='xs'>xs[t]</span>[character] = 1 </span>
+    <span id="trained-line15"><span class='target'>target</span> = targets[t]</span>
+    <span id="trained-line16"><span class="comment"># Compute hidden state </span></span>
+    <span id="trained-line17"><span class='hidden_state'>hidden_states[t]</span> = np.tanh(<span class='input_weights_U'>input_weights_U</span> @ <span class='xs'>xs[t]</span> + <span class='hidden_weights_W'>hidden_weights_W</span> @ <span class='hidden_state_prev'>hidden_states[t-1]</span> + <span class='hidden_bias'>hidden_bias</span>) </span>
+    <span id="trained-line18"><span class="comment"># Compute output and probabilities</span></span>
+    <span id="trained-line19"><span class='outputs'>outputs[t]</span> = <span class='output_weights_v'>output_weights_V</span> @ <span class="hidden_state">hidden_states[t]</span> + <span class='output_bias'>output_bias</span></span>
+    <span id="trained-line20"><span class='probabilities'>probabilities[t]</span> = np.exp(<span class='outputs'>outputs[t]</span>) / np.sum(np.exp(<span class='outputs'>outputs[t]</span>))</span>
+    <span id="trained-line21"><span class="comment">#Compute cross-entropy loss</span></span>
+    <span id="trained-line22"><span class='loss'>loss</span> += -np.log(<span class='probabilities'>probabilities[t]</span>[<span class='target'>target</span>,0]) </span></pre>
+    <div class="controls-container">
+        <button class="back" onclick="goBack('trained')" title="Back"></button>
+        <button class="play" onclick="play('trained')" title="Play"></button>
+        <button class="stop" onclick="pause('trained')" title="Stop"></button>
+        <button class="forward" onclick="goFoward('trained')" title="Next"></button>
+    </div>
+
+    <svg id="trained-diagram" width=1500 height=540></svg>
+    
+    <section>
+        This time our network outputs probabilities for <code>0</code> and <code>1</code> with almost 100% confidence. If you pay close attention to <code>hidden_state</code> you'll notice that it 
+        also alternates between <code>[1,-1,1]</code> and <code>[-1,1,-1].</code> I can't pretend that I know why this is, but it's interesting to see.
+    </section>
+
+    <section>
+        In fact, the more we start thinking about it, the more it's interesting that <code>hidden_state</code> learns anything at all. Hidden state is meant to encode useful information about things we've seen in the past, but our problem doesn't depend on past information. 
+        Our network should really only care about whatever the current input (<code>1</code> or <code>0</code>) to our network is.
+    </section>
+
+    <h2>Making Hidden State Useful</h2>
+
+    <section>
+        If we want hidden state to be useful, we'll have to give it a problem where it's actually needed. We'll modify our original sequence slightly and have our network predict the next character in 
+        <br/>
+        <code>1</code>,<code>1</code>,<code>0</code>,<code>1</code>,<code>1</code>,<code>0</code>,<code>1</code>,<code>1</code>,<code>0</code>, <code>...</code>&nbsp;<br/>
+        Now our network can no longer get away with simply predicting the opposite of the input. It will have to take special care to determine whether we're on the first or second <code>1</code> when predicting the output.
+    </section>
+
+    <section>
+        Below is an RNN trained to respond to input characters <code>1</code>,<code>1</code>,<code>0</code>,<code>1</code> with <code>1</code>,<code>0</code>,<code>1</code>,<code>1</code>.
+        Keep an eye on <code>hidden_state</code> as the animation progresses.
+    </section>
+
+      <pre>
+<span id="new-trained-line0"><span class='comment'>#Initialize weights and biases</span></span>
+<span id="new-trained-line1"><span class='input_weights_U'>input_weights_U</span> = ...  <span class="comment">#trained via gradient descent</span></span>
+<span id="new-trained-line2"><span class='hidden_weights_W'>hidden_weights_W</span> = ... <span class="comment">#trained via gradient descent</span></span>
+<span id="new-trained-line3"><span class='hidden_bias'>hidden_bias</span> = ...      <span class="comment">#trained via gradient descent</span></span>
+<span id="new-trained-line4"><span class='output_weights_V'>output_weights_V</span> = ... <span class="comment">#trained via gradient descent</span></span>
+<span id="new-trained-line5"><span class='output_bias'>output_bias</span> = ...      <span class="comment">#trained via gradient descent</span></span>
+<span id="new-trained-line6"><span class='comment'>#Forward pass</span></span>
+<span id="new-trained-line7">xs, hidden_states, outputs, probabilities = {}, {}, {}, {}</span>
+<span id="new-trained-line8"><span class='loss'>loss</span> = 0</span>
+<span id="new-trained-line9">hidden_states[-1] = np.copy(hidden_state_prev)</span>
+<span id="new-trained-line10"><span class="for">for</span> t <span class="in">in</span> range(len(inputs)): </span>
+    <span id="new-trained-line11"><span class="comment"># one-hot-encoding the input character</span> </span>
+    <span id="new-trained-line12"><span class='xs'>xs[t]</span> = np.zeros((vocab_size,1))  </span>
+    <span id="new-trained-line13"><span class='character'>character</span> = inputs[t]</span>
+    <span id="new-trained-line14"><span class='xs'>xs[t]</span>[character] = 1 </span>
+    <span id="new-trained-line15"><span class='target'>target</span> = targets[t]</span>
+    <span id="new-trained-line16"><span class="comment"># Compute hidden state </span></span>
+    <span id="new-trained-line17"><span class='hidden_state'>hidden_states[t]</span> = np.tanh(<span class='input_weights_U'>input_weights_U</span> @ <span class='xs'>xs[t]</span> + <span class='hidden_weights_W'>hidden_weights_W</span> @ <span class='hidden_state_prev'>hidden_states[t-1]</span> + <span class='hidden_bias'>hidden_bias</span>) </span>
+    <span id="new-trained-line18"><span class="comment"># Compute output and probabilities</span></span>
+    <span id="new-trained-line19"><span class='outputs'>outputs[t]</span> = <span class='output_weights_v'>output_weights_V</span> @ <span class="hidden_state">hidden_states[t]</span> + <span class='output_bias'>output_bias</span></span>
+    <span id="new-trained-line20"><span class='probabilities'>probabilities[t]</span> = np.exp(<span class='outputs'>outputs[t]</span>) / np.sum(np.exp(<span class='outputs'>outputs[t]</span>))</span>
+    <span id="new-trained-line21"><span class="comment">#Compute cross-entropy loss</span></span>
+    <span id="new-trained-line22"><span class='loss'>loss</span> += -np.log(<span class='probabilities'>probabilities[t]</span>[<span class='target'>target</span>,0]) </span></pre>
+    <div class="controls-container">
+        <button class="back" onclick="goBack('new-trained')" title="Back"></button>
+        <button class="play" onclick="play('new-trained')" title="Play"></button>
+        <button class="stop" onclick="pause('new-trained')" title="Stop"></button>
+        <button class="forward" onclick="goFoward('new-trained')" title="Next"></button>
+    </div>
+
+    <svg id="new-trained-diagram" width=1500 height=540></svg>
+
+    <section>
+        This time hidden state is actually encoding useful information we can observe directly. Whenever the network sees the first <code>1</code> in 
+        the sequence, hidden state is set to <code>[0.72, 0.58, 0.96]</code>. You can see this at the first and final steps of the animation. In contrast
+        when the network sees the second <code>1</code>, hidden state is set to <code>[-0.76, 0.89, 0.95]</code>. Varying hidden state like this allows our network
+        to output the proper probabilities at each step despite our inputs (<code>1</code>) and parameters (<code>U</code>, <code>W</code> and <code>V</code>) being the same.
+    </section>
+
+    <section>
+        Indeed much of the power of RNNs stems from hidden state and interesting ways of convincing our network to either remember or forget different things about the input sequences.
+        Andrej's original <a href='http://karpathy.github.io/2015/05/21/rnn-effectiveness/'>blog post</a> covers this in detail for a number of different domains.  
+    </section>
+
+    <section>
+        Interested in more about RNNs? Follow me on Twitter at: <a href="https://twitter.com/ThisIsJoshVarty">@ThisIsJoshVarty</a>
+    </section>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript">
+
+        var untrainedParametersDict = {
+            "U": [[0.04967142, 0.06476885, -0.02341534], [-0.01382643, 0.15230299, -0.0234137]],
+            "W": [[0.15792128, 0.054256, 0.02419623],[0.07674347, -0.04634177, -0.19132802],[-0.04694744, -0.04657298, -0.17249178]],
+            "hidden_bias": [[0.00, 0.00, 0.00]],
+            "output_weights": [[-0.05622875, -0.09080241],[-0.10128311, -0.14123037],[0.03142473, 0.14656488]],
+            "output_bias": [[0, 0]],
+            "loss": 0,
+            "loss_0": 0.69665,
+            "loss_1": 1.38501,
+            "loss_2": 2.08315,
+            "loss_3": 2.77402,
+            "hidden_state_prev": [[0.0, 0.0, 0.0]],
+            "input_tensor": [[0.0, 0.0]],
+            "input_tensor_0": [[0.0, 1.0]],
+            "input_tensor_1": [[1.0, 0.0]],
+            "input_tensor_2": [[0.0, 1.0]],
+            "input_tensor_3": [[1.0, 0.0]],
+            "character_0": 1,
+            "character_1": 0,
+            "character_2": 1,
+            "character_3": 0,
+            "target_0": 0,
+            "target_1": 1,
+            "target_2": 0,
+            "target_3": 1,
+            "hidden_state_0": [[0.0496306, 0.06467844, -0.02341106]],
+            "hidden_state_1": [[7.40357596e-05, 1.51903922e-01, -3.05399045e-02]],
+            "hidden_state_2": [[0.06269218, 0.0590868, -0.0471741]],
+            "hidden_state_3":  [[0.00282322, 0.15392992, -0.02505935]],
+            "outputs_0":[[-0.01007719, -0.01707238]],
+            "outputs_1":[[-0.01634917, -0.02593625]],
+            "outputs_2":[[-0.01099203, -0.02095152]],
+            "outputs_3":[[-0.01102358, -0.02113569]],
+            "probabilities_0":[[0.50174879, 0.49825121]],
+            "probabilities_1":[[0.50239675, 0.49760325]],
+            "probabilities_2":[[0.50248985, 0.49751015]],
+            "probabilities_3":[[0.502528, 0.497472]],
+        };
+
+        var newTrainedParametersDict = {
+            "U": [[ 0.92309407, -1.09796539,  1.1311033 ],[-0.34187003,  0.92498021, -0.57262951]],
+            "W": [[ 0.36261242,  0.05800492,  0.65233051],[-0.92407338,  0.28833216, -2.01059973],[-0.95766068,  0.69999298, -1.16823456]],
+            "hidden_bias":[[ 0.54537906, -0.39005702,  0.60530282]],
+            "output_weights": [[-1.55536037,  1.40832921],[ 1.03402301, -1.27653649],[-3.05378695,  3.23177656]],
+            "output_bias": [[-0.85654389,  0.85654389]],
+            "loss": 0,
+            "loss_0": 0.0001957,
+            "loss_1": 0.0003945,
+            "loss_2": 0.0004583,
+            "loss_3": 0.0006542,
+            "hidden_state_prev": [[ 0.85591395, -0.9593103, 0.50792756]],
+            "input_tensor": [[0.0, 0.0]],
+            "input_tensor_0": [[0.0, 1.0]],
+            "input_tensor_1": [[0.0, 1.0]],
+            "input_tensor_2": [[1.0, 0.0]],
+            "input_tensor_3": [[0.0, 1.0]],
+            "character_0": 1,
+            "character_1": 1,
+            "character_2": 0,
+            "character_3": 1,
+            "target_0": 1,
+            "target_1": 0,
+            "target_2": 1,
+            "target_3": 1,
+            "hidden_state_0": [[0.72301076, 0.58069862, 0.95844325]],
+            "hidden_state_1": [[-0.75684583,  0.88859308, -0.94500874]],
+            "hidden_state_2": [[ 0.85592545, -0.9593124 ,  0.5080363 ]],
+            "hidden_state_3": [[0.72296397, 0.58074911, 0.95843386]],
+            "outputs_0": [[-4.30751193,  4.23097251]],
+            "outputs_1": [[ 4.12530518, -4.3977228 ]],
+            "outputs_2": [[-4.73120214,  4.9284258 ]],
+            "outputs_3": [[-4.30735828,  4.23081182]],
+            "probabilities_0":[[1.95748437e-04, 9.99804252e-01]],
+            "probabilities_1":[[9.99801203e-01, 1.98796913e-04]],
+            "probabilities_2":[[6.38041869e-05, 9.99936196e-01]],
+            "probabilities_3":[[1.95809966e-04, 9.99804190e-01]],
+        };
+
+        var trainedParametersDict = {
+            "U": [[ 0.44096527, -0.60196343,  0.70867724], [-0.45647804,  0.80698425, -0.80276506]],
+            "W": [[-0.25723532,  0.43204388, -0.36451699], [ 0.64050234, -0.66063676,  0.44806243],[-0.62353313,  0.58582799, -0.83103028]],
+            "hidden_bias": [[-0.05135775, -0.01205102, -0.04725878]],
+            "output_weights": [[-1.33223179,  1.18520063], [ 1.70687891, -1.94939239], [-1.77151702,  1.94950663]],
+            "output_bias": [[-0.00424074,  0.00424074]],
+            "loss": 0,
+            "loss_0": 6.2368382e-05,
+            "loss_1": 0.0001279723,
+            "loss_2": 0.0001903406,
+            "loss_3": 0.0002559445,
+            "hidden_state_prev": [[ 0.95469679, -0.9783624 ,  0.97898031]],
+            "input_tensor": [[0.0, 0.0]],
+            "input_tensor_0": [[0.0, 1.0]],
+            "input_tensor_1": [[1.0, 0.0]],
+            "input_tensor_2": [[0.0, 1.0]],
+            "input_tensor_3": [[1.0, 0.0]],
+            "character_0": 1,
+            "character_1": 0,
+            "character_2": 1,
+            "character_3": 0,
+            "target_0": 0,
+            "target_1": 1,
+            "target_2": 0,
+            "target_3": 1,
+            "hidden_state_0": [[-0.96334932,  0.98453439, -0.98521565]],
+            "hidden_state_1": [[ 0.95469856, -0.978363  ,  0.97898089]],
+            "hidden_state_2": [[-0.96334941,  0.98453444, -0.98521569]],
+            "hidden_state_3": [[ 0.95469856, -0.97836301,  0.97898089]],
+            "outputs_0": [[4.70497114, -4.97744978]],
+            "outputs_1": [[-4.68034899,  4.9514932 ]],
+            "outputs_2": [[ 4.7049714 , -4.97745005]],
+            "outputs_3": [[-4.68034901,  4.95149322]],
+            "probabilities_0": [[9.99937634e-01, 6.23664378e-05]],
+            "probabilities_1": [[6.56017762e-05, 9.99934398e-01]],
+            "probabilities_2": [[9.99937634e-01, 6.23664042e-05]],
+            "probabilities_3": [[6.56017732e-05, 9.99934398e-01]],
+        };
+
+        var glowingPlayButton = d3.select('.play');
+
+        var glowInterval = window.setInterval(function () {
+            glowingPlayButton.classed("active", !glowingPlayButton.classed("active"))
+        }, 1000);
+
+        let MAX_STATE_NUMBER = 44;
+        var trained_state = -1;
+        var new_trained_state = -1;
+        var untrained_state = -1;
+
+        var runningInterval = null;
+
+        function goBack(linePrefix) {
+            var containerId = ''
+            var paramDict = null;
+            var state = -1;
+
+            if(linePrefix == "trained") {
+                containerId = '#trained-diagram';
+                paramDict = trainedParametersDict;
+                trained_state = Math.max(trained_state - 1, 0);
+                state = trained_state;
+            }
+            else if (linePrefix === "untrained") {
+                containerId = '#untrained-diagram';
+                paramDict = untrainedParametersDict;
+                untrained_state = Math.max(untrained_state - 1, 0);
+                state = untrained_state
+            }
+            else {
+                containerId = '#new-trained-diagram';
+                paramDict = newTrainedParametersDict;
+                new_trained_state = Math.max(new_trained_state - 1, 0);
+                state = new_trained_state
+            }
+            
+            clearInterval(runningInterval);
+            goState(state, containerId, linePrefix, paramDict, false)
+        }
+
+        function clearAndGoForward(linePrefix) {
+            clearInterval(runningInterval);
+            goFoward(linePrefix);
+        }
+
+        function goFoward(linePrefix) {
+            var containerId = '';
+            var paramDict = null;
+            var state = -1;
+
+            if(linePrefix === "trained") {
+                containerId = '#trained-diagram';
+                paramDict = trainedParametersDict;
+                trained_state = (trained_state + 1) % MAX_STATE_NUMBER;
+                state = trained_state;
+            }
+            else if (linePrefix === "untrained") {
+                containerId = '#untrained-diagram';
+                paramDict = untrainedParametersDict;
+                untrained_state = (untrained_state + 1) % MAX_STATE_NUMBER;
+                state = untrained_state
+            }
+            else {
+                containerId = '#new-trained-diagram';
+                paramDict = newTrainedParametersDict;
+                new_trained_state = (new_trained_state + 1) % MAX_STATE_NUMBER;
+                state = new_trained_state
+            }
+
+            goState(state, containerId, linePrefix, paramDict, true)
+        }
+
+        function pause() {
+            clearInterval(runningInterval);
+        }
+
+        function play(linePrefix) {
+            clearInterval(glowInterval);
+            glowingPlayButton.classed("active", false);
+            clearInterval(runningInterval);
+
+            runningInterval = setInterval(function () {
+                goFoward(linePrefix);
+            }, 1000);
+        }
+
+        function goState0(containerId, paramDict, doTransition) {
+            let fadeIn = doTransition
+            placeRNNBlock(containerId, 50, 100, fadeIn)
+
+            var U = paramDict["U"];
+            placeTensor(containerId, "U", "U", 300, 370, U, fadeIn);
+        }
+
+        function goState1(containerId, paramDict, doTransition) {
+            goState0(containerId, paramDict, false);
+            let fadeIn = doTransition
+
+            var W = paramDict["W"];
+            placeTensor(containerId, "W", "W", 65, 195, W, fadeIn);
+        }
+
+        function goState2(containerId, paramDict, doTransition) {
+            goState1(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var hidden_bias = paramDict["hidden_bias"];
+            placeTensor(containerId, "", "hidden_bias", 145, 130, hidden_bias, fadeIn);
+        }
+
+        function goState3(containerId, paramDict, doTransition) {
+            goState2(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var output_weights = paramDict["output_weights"];
+            placeTensor_2Elements(containerId, "V", "V", 300, 120, output_weights, fadeIn);
+        }
+
+        function goState4(containerId, paramDict, doTransition) {
+            goState3(containerId, paramDict, false);
+            let fadeIn = doTransition
+
+            var output_bias = paramDict["output_bias"];
+            placeTensor_2Elements(containerId, "", "output_bias", 440, 120, output_bias, fadeIn);
+        }
+
+        function goState5(containerId, paramDict, doTransition) {
+            goState4(containerId, paramDict, false);
+        }
+
+        function goState6(containerId, paramDict, doTransition) {
+            goState5(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var loss = paramDict["loss"];
+            placeText_Big(containerId, "loss", "loss", loss, 0, 25, fadeIn);
+        }
+
+        function goState7(containerId, paramDict, doTransition) {
+            goState6(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var hidden_state_prev = paramDict["hidden_state_prev"];
+            placeTensor(containerId, "", "h", 0, 250, hidden_state_prev, fadeIn);
+        }
+
+        function goState8(containerId, paramDict, doTransition) {
+            goState7(containerId, paramDict, false);
+        }
+
+        function goState9(containerId, paramDict, doTransition) {
+            goState8(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            let input_tensor = paramDict["input_tensor"];
+            placeTensor_2Elements(containerId, "x", "x", 238, 450, input_tensor, fadeIn);
+        }
+
+        function goState10(containerId, paramDict, doTransition) {
+            goState9(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var character = paramDict["character_0"];
+            placeText(containerId, "character", "character_0", character, 260, 535, fadeIn);
+        }
+
+        function goState11(containerId, paramDict, doTransition) {
+            goState10(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#x').remove();
+            let input_tensor = paramDict["input_tensor_0"];
+            placeTensor_2Elements(containerId, "x", "x", 238, 450, input_tensor, fadeIn, contentsChanged);
+        }
+
+        function goState12(containerId, paramDict, doTransition) {
+            goState11(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var target = paramDict["target_0"];
+            placeText(containerId, "target", "target_0", target, 270, 15, fadeIn);
+        }
+
+        function goState13(containerId, paramDict, doTransition) {
+            goState12(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let hidden_state = paramDict["hidden_state_0"];
+            placeTensor(containerId, "", "hidden_state", 238, 240, hidden_state, fadeIn, contentsChanged);
+        }
+
+        function goState14(containerId, paramDict, doTransition) {
+            goState13(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let outputs = paramDict["outputs_0"];
+            placeTensor_2Elements(containerId, "o", "o", 190, 30, outputs, fadeIn, contentsChanged);
+        }
+
+        function goState15(containerId, paramDict, doTransition) {
+            goState14(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let probabilities = paramDict["probabilities_0"]
+            placeTensor_2Elements(containerId, "p", "p", 280, 30, probabilities, fadeIn, contentsChanged);
+        }
+
+        function goState16(containerId, paramDict, doTransition) {
+            goState15(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#loss').remove();
+            var loss = paramDict["loss_0"]
+            placeText_Big(containerId, "loss", "loss", loss, 0, 25, fadeIn, contentsChanged);
+        }
+
+        function goState17(containerId, paramDict, doTransition) {
+            goState16(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            placeRNNBlock(containerId, 275, 100, fadeIn);
+
+            var container = d3.select(containerId);
+
+            container.select("#o").remove();
+            container.select("#p").remove();
+            container.select("#x").remove();
+            container.select("#h").remove();
+            container.select('#hidden_state').attr('id', 'h');
+
+            if (doTransition) {
+                container.select('#W').transition().attr('x', 320).attr('y', 155);
+                container.select('#V').transition().attr('x', 525).attr('y', 155);
+                container.select('#U').transition().attr('x', 525)
+                container.select('#hidden_bias').transition().attr('x', 400).attr('y', 90);
+                container.select('#output_bias').transition().attr('x', 665).attr('y', 155)
+            }
+            else {
+                container.select('#W').attr('x', 320).attr('y', 155);
+                container.select('#V').attr('x', 525).attr('y', 155);
+                container.select('#U').attr('x', 525)
+                container.select('#hidden_bias').attr('x', 400).attr('y', 90);
+                container.select('#output_bias').attr('x', 665).attr('y', 155)
+            }
+        }
+
+        function goState18(containerId, paramDict, doTransition) {
+            goState17(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let input_tensor = paramDict["input_tensor"]
+            placeTensor_2Elements(containerId, "x", "x", 460, 450, input_tensor, fadeIn);
+        }
+
+        function goState19(containerId, paramDict, doTransition) {
+            goState18(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var character = paramDict["character_1"]
+            placeText(containerId, "character", "character_1", character, 480, 535, fadeIn);
+        }
+
+        function goState20(containerId, paramDict, doTransition) {
+            goState19(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#x').remove();
+            let input_tensor = paramDict["input_tensor_1"]
+            placeTensor_2Elements(containerId, "x", "x", 460, 450, input_tensor, fadeIn, contentsChanged);
+        }
+
+        function goState21(containerId, paramDict, doTransition) {
+            goState20(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var target = paramDict["target_1"];
+            placeText(containerId, "target", "target_1", target, 480, 15, fadeIn);
+        }
+
+        function goState22(containerId, paramDict, doTransition) {
+            goState21(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let hidden_state = paramDict["hidden_state_1"];
+            placeTensor(containerId, "", "hidden_state", 460, 240, hidden_state, fadeIn, contentsChanged);
+        }
+
+        function goState23(containerId, paramDict, doTransition) {
+            goState22(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let outputs = paramDict["outputs_1"];
+            placeTensor_2Elements(containerId, "o", "o", 430, 20, outputs, fadeIn, contentsChanged);
+        }
+
+        function goState24(containerId, paramDict, doTransition) {
+            goState23(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+            let probabilities = paramDict["probabilities_1"];
+            placeTensor_2Elements(containerId, "p", "p", 520, 20, probabilities, fadeIn, contentsChanged);
+        }
+
+        function goState25(containerId, paramDict, doTransition) {
+            goState24(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#loss').remove();
+            var loss = paramDict["loss_1"];
+            placeText_Big(containerId, "loss", "loss", loss, 0, 25, fadeIn, contentsChanged);
+        }
+
+        function goState26(containerId, paramDict, doTransition) {
+            goState25(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+
+            placeRNNBlock(containerId, 500, 100, fadeIn);
+
+            var container = d3.select(containerId);
+            container.select("#o").remove();
+            container.select("#p").remove();
+            container.select("#x").remove();
+            container.select("#h").remove();
+            container.select('#hidden_state').attr('id', 'h');
+
+            if (doTransition) {
+                container.select('#W').transition().attr('x', 545)
+                container.select('#V').transition().attr('x', 750);
+                container.select('#U').transition().attr('x', 750);
+                container.select('#hidden_bias').transition().attr('x', 625)
+                container.select('#output_bias').transition().attr('x', 890);
+            }
+            else {
+                container.select('#W').attr('x', 545)
+                container.select('#V').attr('x', 750);
+                container.select('#U').attr('x', 750);
+                container.select('#hidden_bias').attr('x', 625)
+                container.select('#output_bias').attr('x', 890);
+            }
+        }
+
+        function goState27(containerId, paramDict, doTransition) {
+            goState26(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let input_tensor = paramDict["input_tensor"];
+            placeTensor_2Elements(containerId, "x", "x", 686, 450, input_tensor, fadeIn);
+        }
+
+        function goState28(containerId, paramDict, doTransition) {
+            goState27(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            var character = paramDict["character_2"];
+            placeText(containerId, "character", "character_2", character, 700, 535, fadeIn);
+        }
+
+        function goState29(containerId, paramDict, doTransition) {
+            goState28(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#x').remove();
+            let input_tensor = paramDict["input_tensor_2"];
+            placeTensor_2Elements(containerId, "x", "x", 686, 450, input_tensor, fadeIn, contentsChanged);
+        }
+
+        function goState30(containerId, paramDict, doTransition) {
+            goState29(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            var target = paramDict["target_2"];
+            placeText(containerId, "target", "target_2", target, 700, 15, fadeIn);
+        }
+
+        function goState31(containerId, paramDict, doTransition) {
+            goState30(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let hidden_state = paramDict["hidden_state_2"];
+            placeTensor(containerId, "", "hidden_state", 686, 240, hidden_state, fadeIn, contentsChanged);
+        }
+
+        function goState32(containerId, paramDict, doTransition) {
+            goState31(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let outputs = paramDict["outputs_2"];
+            placeTensor_2Elements(containerId, "o", "o", 660, 20, outputs, fadeIn, contentsChanged);
+        }
+
+        function goState33(containerId, paramDict, doTransition) {
+            goState32(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+            let probabilities = paramDict["probabilities_2"];
+            placeTensor_2Elements(containerId, "p", "p", 750, 20, probabilities, fadeIn, contentsChanged);
+        }
+
+        function goState34(containerId, paramDict, doTransition) {
+            goState33(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#loss').remove();
+            var loss = paramDict["loss_2"];
+            placeText_Big(containerId, "loss", "loss", loss, 0, 25, fadeIn, contentsChanged);
+        }
+
+        function goState35(containerId, paramDict, doTransition) {
+            goState34(containerId, paramDict, false);
+            let fadeIn = doTransition;
+
+            placeRNNBlock(containerId, 725, 100, fadeIn);
+
+            var container = d3.select(containerId);
+            container.select("#o").remove();
+            container.select("#p").remove();
+            container.select("#x").remove();
+            container.select("#h").remove();
+            container.select('#hidden_state').attr('id', 'h');
+
+            if (doTransition) {
+                container.select('#W').transition().attr('x', 755)
+                container.select('#V').transition().attr('x', 975);
+                container.select('#U').transition().attr('x', 975);
+                container.select('#hidden_bias').transition().attr('x', 835)
+                container.select('#output_bias').transition().attr('x', 1115);
+            }
+            else {
+                container.select('#W').attr('x', 755)
+                container.select('#V').attr('x', 975);
+                container.select('#U').attr('x', 975);
+                container.select('#hidden_bias').attr('x', 835)
+                container.select('#output_bias').attr('x', 1115);
+            }
+        }
+
+        function goState36(containerId, paramDict, doTransition) {
+            goState35(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let input_tensor = paramDict["input_tensor"];
+            placeTensor_2Elements(containerId, "x", "x", 910, 450, input_tensor, fadeIn);
+        }
+
+        function goState37(containerId, paramDict, doTransition) {
+            goState36(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            var character = paramDict["character_3"];
+            placeText(containerId, "character", "character_3", character, 935, 535, fadeIn);
+        }
+
+        function goState38(containerId, paramDict, doTransition) {
+            goState37(containerId, paramDict, false);
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            d3.select(containerId).select('#x').remove();
+            let input_tensor = paramDict["input_tensor_3"];
+            placeTensor_2Elements(containerId, "x", "x", 910, 450, input_tensor, fadeIn, contentsChanged);
+        }
+
+        function goState39(containerId, paramDict, doTransition) {
+            goState38(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            var target = paramDict["target_3"]
+            placeText(containerId, "target", "target_3", target, 933, 15, fadeIn);
+        }
+
+        function goState40(containerId, paramDict, doTransition) {
+            goState39(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let hidden_state = paramDict["hidden_state_3"];
+            placeTensor(containerId, "", "hidden_state", 910, 240, hidden_state, fadeIn, contentsChanged);
+        }
+
+        function goState41(containerId, paramDict, doTransition) {
+            goState40(containerId, paramDict, false);
+
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+            let outputs = paramDict["outputs_3"];
+            placeTensor_2Elements(containerId, "o", "o", 880, 20, outputs, fadeIn, contentsChanged);
+        }
+
+        function goState42(containerId, paramDict, doTransition) {
+            goState41(containerId, paramDict, false);
+            let fadeIn = doTransition;
+            let contentsChanged = false;
+
+            let probabilities = paramDict["probabilities_3"];
+            placeTensor_2Elements(containerId, "p", "p", 970, 20, probabilities, fadeIn, contentsChanged);
+        }
+
+        function goState43(containerId, paramDict, doTransition) {
+            goState42(containerId, paramDict, false);
+
+            let fadeIn = false;
+            let contentsChanged = doTransition;
+
+            var loss = paramDict["loss_3"];
+            d3.select(containerId).select('#loss').remove();
+            placeText_Big(containerId, "loss", "loss", "2.77402", 0, 25, fadeIn, contentsChanged);
+        }
+
+        function goState(state, containerId, linePrefix, paramDict, doTransition) {
+            //Clear the svg and but our arrowhead definitions
+            var container = d3.select(containerId)
+            container.selectAll("*").remove()
+            container.append("defs")
+                .append("marker")
+                .attr("id", "arrow")
+                .attr("markerWidth", 10)
+                .attr("markerHeight", 10)
+                .attr("refX", 0)
+                .attr("refY", 3)
+                .attr("orient", "auto")
+                .append('path')
+                .attr('d', 'M0,0 L0,6 L9,3 z')
+                .attr('fill', '#000')
+
+            //Clear active line
+            var activeLines = document.getElementsByClassName("active-line");
+            for (var i = 0; i < activeLines.length; i++) {
+                var currentActiveLine = activeLines[i];
+                currentActiveLine.classList.remove('active-line')
+            }
+
+            if (state == 0) {
+                var activeLine = document.getElementById(linePrefix + "-line1")
+                activeLine.setAttribute('class', 'active-line')
+                goState0(containerId, paramDict, doTransition)
+            }
+            else if (state == 1) {
+                var activeLine = document.getElementById(linePrefix + "-line2")
+                activeLine.setAttribute('class', 'active-line')
+                goState1(containerId, paramDict, doTransition);
+            }
+            else if (state == 2) {
+                var activeLine = document.getElementById(linePrefix + "-line3")
+                activeLine.setAttribute('class', 'active-line')
+                goState2(containerId, paramDict, doTransition);
+            }
+            else if (state == 3) {
+                var activeLine = document.getElementById(linePrefix + "-line4")
+                activeLine.setAttribute('class', 'active-line')
+                goState3(containerId, paramDict, doTransition);
+            }
+            else if (state == 4) {
+                var activeLine = document.getElementById(linePrefix + "-line5")
+                activeLine.setAttribute('class', 'active-line')
+                goState4(containerId, paramDict, doTransition);
+            }
+            else if (state == 5) {
+                var activeLine = document.getElementById(linePrefix + "-line7")
+                activeLine.setAttribute('class', 'active-line')
+                goState5(containerId, paramDict, doTransition);
+            }
+            else if (state == 6) {
+                var activeLine = document.getElementById(linePrefix + "-line8")
+                activeLine.setAttribute('class', 'active-line')
+                goState6(containerId, paramDict, doTransition);
+            }
+            else if (state == 7) {
+                var activeLine = document.getElementById(linePrefix + "-line9")
+                activeLine.setAttribute('class', 'active-line')
+                goState7(containerId, paramDict, doTransition);
+            }
+            else if (state == 8) {
+                var activeLine = document.getElementById(linePrefix + "-line10")
+                activeLine.setAttribute('class', 'active-line')
+                goState8(containerId, paramDict, doTransition);
+            }
+            else if (state == 9) {
+                var activeLine = document.getElementById(linePrefix + "-line12")
+                activeLine.setAttribute('class', 'active-line')
+                goState9(containerId, paramDict, doTransition);
+            }
+            else if (state == 10) {
+                var activeLine = document.getElementById(linePrefix + "-line13")
+                activeLine.setAttribute('class', 'active-line')
+                goState10(containerId, paramDict, doTransition);
+            }
+            else if (state == 11) {
+                var activeLine = document.getElementById(linePrefix + "-line14")
+                activeLine.setAttribute('class', 'active-line')
+                goState11(containerId, paramDict, doTransition);
+            }
+            else if (state == 12) {
+                var activeLine = document.getElementById(linePrefix + "-line15")
+                activeLine.setAttribute('class', 'active-line')
+                goState12(containerId, paramDict, doTransition);
+            }
+            else if (state == 13) {
+                var activeLine = document.getElementById(linePrefix + "-line17")
+                activeLine.setAttribute('class', 'active-line')
+                goState13(containerId, paramDict, doTransition);
+            }
+            else if (state == 14) {
+                var activeLine = document.getElementById(linePrefix + "-line19")
+                activeLine.setAttribute('class', 'active-line')
+                goState14(containerId, paramDict, doTransition);
+            }
+            else if (state == 15) {
+                var activeLine = document.getElementById(linePrefix + "-line20")
+                activeLine.setAttribute('class', 'active-line')
+                goState15(containerId, paramDict, doTransition);
+            }
+            else if (state == 16) {
+                var activeLine = document.getElementById(linePrefix + "-line22")
+                activeLine.setAttribute('class', 'active-line')
+                goState16(containerId, paramDict, doTransition);
+            }
+            else if (state == 17) {
+                var activeLine = document.getElementById(linePrefix + "-line10")
+                activeLine.setAttribute('class', 'active-line')
+                goState17(containerId, paramDict, doTransition);
+            }
+            else if (state == 18) {
+                var activeLine = document.getElementById(linePrefix + "-line12")
+                activeLine.setAttribute('class', 'active-line')
+                goState18(containerId, paramDict, doTransition);
+            }
+            else if (state == 19) {
+                var activeLine = document.getElementById(linePrefix + "-line13")
+                activeLine.setAttribute('class', 'active-line')
+                goState19(containerId, paramDict, doTransition);
+            }
+            else if (state == 20) {
+                var activeLine = document.getElementById(linePrefix + "-line14")
+                activeLine.setAttribute('class', 'active-line')
+                goState20(containerId, paramDict, doTransition);
+            }
+            else if (state == 21) {
+                var activeLine = document.getElementById(linePrefix + "-line15")
+                activeLine.setAttribute('class', 'active-line')
+                goState21(containerId, paramDict, doTransition);
+            }
+            else if (state == 22) {
+                var activeLine = document.getElementById(linePrefix + "-line17")
+                activeLine.setAttribute('class', 'active-line')
+                goState22(containerId, paramDict, doTransition);
+            }
+            else if (state == 23) {
+                var activeLine = document.getElementById(linePrefix + "-line19")
+                activeLine.setAttribute('class', 'active-line')
+                goState23(containerId, paramDict, doTransition);
+            }
+            else if (state == 24) {
+                var activeLine = document.getElementById(linePrefix + "-line20")
+                activeLine.setAttribute('class', 'active-line')
+                goState24(containerId, paramDict, doTransition);
+            }
+            else if (state == 25) {
+                var activeLine = document.getElementById(linePrefix + "-line22")
+                activeLine.setAttribute('class', 'active-line')
+                goState25(containerId, paramDict, doTransition);
+            }
+            else if (state == 26) {
+                var activeLine = document.getElementById(linePrefix + "-line10")
+                activeLine.setAttribute('class', 'active-line')
+                goState26(containerId, paramDict, doTransition);
+            }
+            else if (state == 27) {
+                var activeLine = document.getElementById(linePrefix + "-line12")
+                activeLine.setAttribute('class', 'active-line')
+                goState27(containerId, paramDict, doTransition);
+            }
+            else if (state == 28) {
+                var activeLine = document.getElementById(linePrefix + "-line13")
+                activeLine.setAttribute('class', 'active-line')
+                goState28(containerId, paramDict, doTransition);
+            }
+            else if (state == 29) {
+                var activeLine = document.getElementById(linePrefix + "-line14")
+                activeLine.setAttribute('class', 'active-line')
+                goState29(containerId, paramDict, doTransition);
+            }
+            else if (state == 30) {
+                var activeLine = document.getElementById(linePrefix + "-line15")
+                activeLine.setAttribute('class', 'active-line')
+                goState30(containerId, paramDict, doTransition);
+            }
+            else if (state == 31) {
+                var activeLine = document.getElementById(linePrefix + "-line17")
+                activeLine.setAttribute('class', 'active-line')
+                goState31(containerId, paramDict, doTransition);
+            }
+            else if (state == 32) {
+                var activeLine = document.getElementById(linePrefix + "-line19")
+                activeLine.setAttribute('class', 'active-line')
+                goState32(containerId, paramDict, doTransition);
+            }
+            else if (state == 33) {
+                var activeLine = document.getElementById(linePrefix + "-line20");
+                activeLine.setAttribute('class', 'active-line');
+                goState33(containerId, paramDict, doTransition);
+            }
+            else if (state == 34) {
+                var activeLine = document.getElementById(linePrefix + "-line22");
+                activeLine.setAttribute('class', 'active-line');
+                goState34(containerId, paramDict, doTransition);
+            }
+            else if (state == 35) {
+                var activeLine = document.getElementById(linePrefix + "-line10");
+                activeLine.setAttribute('class', 'active-line');
+                goState35(containerId, paramDict, doTransition);
+            }
+            else if (state == 36) {
+                var activeLine = document.getElementById(linePrefix + "-line12");
+                activeLine.setAttribute('class', 'active-line');
+                goState36(containerId, paramDict, doTransition);
+            }
+            else if (state == 37) {
+                var activeLine = document.getElementById(linePrefix + "-line13");
+                activeLine.setAttribute('class', 'active-line');
+                goState37(containerId, paramDict, doTransition);
+            }
+            else if (state == 38) {
+                var activeLine = document.getElementById(linePrefix + "-line14");
+                activeLine.setAttribute('class', 'active-line');
+                goState38(containerId, paramDict, doTransition);
+            }
+            else if (state == 39) {
+                var activeLine = document.getElementById(linePrefix + "-line15");
+                activeLine.setAttribute('class', 'active-line');
+                goState39(containerId, paramDict, doTransition);
+            }
+            else if (state == 40) {
+                var activeLine = document.getElementById(linePrefix + "-line17");
+                activeLine.setAttribute('class', 'active-line');
+                goState40(containerId, paramDict, doTransition);
+            }
+            else if (state == 41) {
+                var activeLine = document.getElementById(linePrefix + "-line19");
+                activeLine.setAttribute('class', 'active-line');
+                goState41(containerId, paramDict, doTransition);
+            }
+            else if (state == 42) {
+                var activeLine = document.getElementById(linePrefix + "-line20");
+                activeLine.setAttribute('class', 'active-line');
+                goState42(containerId, paramDict, doTransition);
+            }
+            else if (state == 43) {
+                var activeLine = document.getElementById(linePrefix + "-line22");
+                activeLine.setAttribute('class', 'active-line');
+                goState43(containerId, paramDict, doTransition);
+            }
+
+            function hoverElement(selectId, selectClass) {
+                d3.selectAll(selectClass)
+                    .attr('style', 'background:#BB0000;');
+
+                var offset = 5;
+                d3.selectAll(selectId + " g")
+                    .transition()
+                    .attr('style', 'fill:red;')
+                    .attr('transform', 'scale(1.05) translate(-' + offset + ')')
+                    .duration(100)
+                    .transition()
+                    .attr('transform', 'scale(1)')
+                    .duration(100)
+            }
+
+            function leaveElement(selectId, selectClass) {
+                d3.selectAll(selectClass)
+                    .attr('style', '');
+                d3.selectAll(selectId + " g")
+                    .transition()
+                    .attr('style', '')
+                    .attr('transform', '')
+            }
+
+            function setupHoverHandlers(selectId, selectClass) {
+                //When hovering over the element on the diagram
+                d3.selectAll(selectId)
+                    .on('mouseover', function () {
+                        hoverElement(selectId, selectClass);
+                    })
+                    .on('mouseleave', function () {
+                        leaveElement(selectId, selectClass);
+                    });
+
+                //When hovering over the element in code
+                d3.selectAll(selectClass)
+                    .on('mouseover', function () {
+                        hoverElement(selectId, selectClass);
+                    })
+                    .on('mouseleave', function () {
+                        leaveElement(selectId, selectClass);
+                    });
+            }
+
+            //Set up hover event listeners
+            setupHoverHandlers("#U", ".input_weights_U");
+            setupHoverHandlers("#W", ".hidden_weights_W");
+            setupHoverHandlers("#hidden_bias", ".hidden_bias");
+            setupHoverHandlers("#V", ".output_weights_V");
+            setupHoverHandlers("#output_bias", '.output_bias');
+            setupHoverHandlers("#x", ".xs");
+            setupHoverHandlers("#hidden_state", ".hidden_state");
+            setupHoverHandlers("#h", ".hidden_state_prev");
+            setupHoverHandlers("#o", ".outputs");
+            setupHoverHandlers("#p", ".probabilities");
+        }
+
+        function placeText_Big(containerId, name, id, value, xOffset, yOffset, fadeIn, contentsChanged) {
+
+            //TODO: Make it look better (font and size)
+            var container = d3.select(containerId).append("svg")
+                .attr('id', id);
+
+            var label = container.append("text")
+                .attr('font-family', 'Arial,"Helvetica Neue",Helvetica,sans-serif')
+                .attr('font-size', '24px')
+                .text(name)
+                .attr('x', xOffset)
+                .attr('y', yOffset);
+
+            //We have to account for the number of characters in our "name" label
+            let numberOfCharactersInName = name.length;
+            let nameOffset = numberOfCharactersInName * 11;
+
+            var equals = container.append("text")
+                .attr('font-family', 'Arial,"Helvetica Neue",Helvetica,sans-serif')
+                .attr('font-size', '24px')
+                .text('=')
+                .attr('x', xOffset + nameOffset + 2)
+                .attr('y', yOffset);
+
+            var value = container.append("text")
+                .attr('font-family', '')
+                .attr('font-size', '24px')
+                .text(value)
+                .attr('x', xOffset + nameOffset + 18)
+                .attr('y', yOffset);
+
+            if (fadeIn) {
+                for (let item of [label, equals, value]) {
+                    item.attr('opacity', 0)
+                        .transition()
+                        .attr('opacity', 1)
+                }
+            }
+
+            if (contentsChanged === true) {
+                for (let item of [value]) {
+                    item.style('fill', 'red')
+                }
+            }
+
+        }
+
+        function placeText(containerId, name, id, value, xOffset, yOffset, fadeIn, contentsChanged) {
+
+            //TODO: Make it look better (font and size)
+            var container = d3.select(containerId).append("svg")
+                .attr('id', id);
+
+            var label = container.append("text")
+                .attr('font-family', 'Arial,"Helvetica Neue",Helvetica,sans-serif')
+                .text(name)
+                .attr('x', xOffset)
+                .attr('y', yOffset);
+
+            //We have to account for the number of characters in our "name" label
+            let numberOfCharactersInName = name.length;
+            let nameOffset = numberOfCharactersInName * 7;
+
+            var equals = container.append("text")
+                .attr('font-family', 'Arial,"Helvetica Neue",Helvetica,sans-serif')
+                .text('=')
+                .attr('x', xOffset + nameOffset + 2)
+                .attr('y', yOffset);
+
+            var value = container.append("text")
+                .attr('font-family', '')
+                .text(value)
+                .attr('x', xOffset + nameOffset + 13)
+                .attr('y', yOffset);
+
+            if (fadeIn) {
+                for (let item of [label, equals, value]) {
+                    item.attr('opacity', 0)
+                        .transition()
+                        .attr('opacity', 1)
+                }
+            }
+
+            if (contentsChanged === true) {
+                for (let item of [value]) {
+                    item.style('fill', 'red')
+                }
+            }
+        }
+
+        function placeRNNBlock(containerId, xOffset, yOffset, fadeIn) {
+            //Create diagram container
+            var diagramContainer = d3.select(containerId).append("svg");
+            //Draw first hidden-state square
+            var rect = diagramContainer.append("rect")
+                .attr("x", xOffset + 200)
+                .attr("y", yOffset + 125)
+                .attr("style", "fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)")
+                .attr("width", 100).attr("height", 0)
+                .attr("height", 100)
+
+            //bottom arrow
+            var line = diagramContainer.append("line")
+                .attr("x1", xOffset + 250)
+                .attr("y1", yOffset + 350)
+                .attr("x2", xOffset + 250)
+                .attr("y2", yOffset + 250)
+                .attr("stroke", "black")
+                .attr("stroke-width", "3")
+                .attr("marker-end", "url(#arrow)")
+
+            //left arrow
+            var leftArrow = diagramContainer.append("line")
+                .attr("x1", xOffset + 75)
+                .attr("y1", yOffset + 175)
+                .attr("x2", xOffset + 175)
+                .attr("y2", yOffset + 175)
+                .attr("stroke", "black")
+                .attr("stroke-width", "3")
+                .attr("marker-end", "url(#arrow)")
+
+            //top arrow
+            var topArrow = diagramContainer.append("line")
+                .attr("x1", xOffset + 250)
+                .attr("y1", yOffset + 125)
+                .attr("x2", xOffset + 250)
+                .attr("y2", yOffset + 40)
+                .attr("stroke", "black")
+                .attr("stroke-width", "3")
+                .attr("marker-end", "url(#arrow)")
+
+            if (fadeIn) {
+                for (let item of [rect, line, leftArrow, topArrow]) {
+                    item.attr('opacity', 0)
+                        .transition()
+                        .attr('opacity', 1)
+                }
+            }
+        }
+
+        function placeTensor(containerId, name, id, xOffset, yOffset, tensorElements, fadeIn, contentsChanged) {
+
+            var container = d3.select(containerId).append('svg')
+                .attr('x', xOffset)
+                .attr('y', yOffset)
+                .attr('id', id)
+                .append('g')
+
+            var numberOfColumns = tensorElements.length;
+            var numberOfRows = tensorElements[0].length;
+
+            var text = container.append('text')
+                .attr('x', 10)
+                .attr('y', 45)
+                .attr('class', 'array-name')
+                .text(name)
+
+            var lb = container.append('text')
+                .attr('x', 30)
+                .attr('y', 52)
+                .attr('class', 'array-bracket')
+                .text('[')
+
+            var rb = container.append('text')
+                .attr('x', (numberOfColumns * 40) + 40)
+                .attr('y', 52)
+                .attr('class', 'array-bracket')
+                .text(']')
+
+            var elements = container.selectAll('svg').data(tensorElements).enter().append("svg")
+                .attr("class", 'array')
+                .attr("x", function (d, i, j) { return (i * 40) + 50; })
+                .selectAll('text')
+                .data(function (d, i, j) { return d; }).enter().append('text')
+                .text(function (d, i, j) { return d.toFixed(2); })
+                .attr("y", function (d, i, j) {
+                    return (i * 20) + 20;
+                })
+
+            var rect = container.append('rect')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', ((numberOfColumns * 40) + 50))
+                .attr('height', (numberOfRows * 20))
+                .attr('fill', 'transparent')
+
+            if (fadeIn === true) {
+                var offset = 5;
+                if (numberOfColumns == 1) {
+                    offset = 3;
+                }
+
+                container
+                    .attr('transform', 'scale(0.95) translate(' + offset + ')')
+                    .attr('opacity', 0)
+                    .transition().attr('transform', 'scale(1.05) translate(-' + offset + ')').attr('opacity', '1')
+                    .transition().attr('transform', 'scale(1)')
+            }
+
+            if (contentsChanged === true) {
+                for (let item of [elements]) {
+                    item.style('fill', 'red')
+                }
+            }
+        }
+
+        function placeTensor_2Elements(containerId, name, id, xOffset, yOffset, tensorElements, fadeIn, contentsChanged) {
+
+            var container = d3.select(containerId).append('svg')
+                .attr('x', xOffset)
+                .attr('y', yOffset)
+                .attr('id', id)
+                .append('g')
+
+            var numberOfColumns = tensorElements.length;
+            var numberOfRows = 2;
+
+            var text = container.append('text')
+                .attr('x', 10)
+                .attr('y', 45)
+                .attr('class', 'array-name')
+                .text(name)
+
+            var lb = container.append('text')
+                .attr('x', 30)
+                .attr('y', 52)
+                .attr('class', 'array-bracket')
+                .text('[')
+
+            var rb = container.append('text')
+                .attr('x', (numberOfColumns * 40) + 40)
+                .attr('y', 52)
+                .attr('class', 'array-bracket')
+                .text(']')
+
+            var elements = container.selectAll('svg').data(tensorElements).enter().append("svg")
+                .attr("class", 'array')
+                .attr("x", function (d, i, j) { return (i * 40) + 50; })
+                .selectAll('text')
+                .data(function (d, i, j) { return d; }).enter().append('text')
+                .text(function (d, i, j) { return d.toFixed(2); })
+                .attr("y", function (d, i, j) {
+                    return (i * 20) + 30;
+                })
+
+            var rect = container.append('rect')
+                .attr('x', 23)
+                .attr('y', 0)
+                .attr('width', (numberOfColumns * 40) + 30)
+                .attr('height', (numberOfRows * 20) + 30)
+                .attr('fill', 'transparent')
+
+            if (fadeIn === true) {
+                var offset = 5;
+                if (numberOfColumns == 1) {
+                    offset = 3;
+                }
+
+                container
+                    .attr('transform', 'scale(0.95) translate(' + offset + ')')
+                    .attr('opacity', 0)
+                    .transition().attr('transform', 'scale(1.05) translate(-' + offset + ')').attr('opacity', '1')
+                    .transition().attr('transform', 'scale(1)')
+            }
+
+            if (contentsChanged === true) {
+                for (let item of [elements]) {
+                    item.style('fill', 'red')
+                }
+            }
+        }
+
+        clearAndGoForward('untrained')
+        clearAndGoForward('trained')
+        clearAndGoForward('new-trained')
+    </script>
+</body>
+
+</html>

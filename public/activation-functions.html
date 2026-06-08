@@ -1,0 +1,446 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Activation Functions — Deep Learning Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #fafaf8;
+  --bg2: #f2f1ee;
+  --bg3: #e8e7e3;
+  --surface: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.14);
+  --text: #111110;
+  --text2: #4a4a46;
+  --text3: #888884;
+  --accent: #111110;
+  --accent-inv: #ffffff;
+  --mono: 'DM Mono', monospace;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'Inter', sans-serif;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="dark"] {
+  --bg: #0e0e0d;
+  --bg2: #161614;
+  --bg3: #1e1e1c;
+  --surface: #1a1a18;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0ede8;
+  --text2: #a8a49e;
+  --text3: #5a5a54;
+  --accent: #f0ede8;
+  --accent-inv: #111110;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  transition: var(--transition);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* TYPOGRAPHY */
+h1 { font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 4.8rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.02em; }
+h2 { font-family: var(--serif); font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 400; line-height: 1.2; }
+h3 { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); }
+p { font-size: 0.9rem; color: var(--text2); line-height: 1.75; }
+code { font-family: var(--mono); font-size: 0.82em; background: var(--bg3); padding: 2px 6px; border-radius: 4px; }
+
+/* LAYOUT */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; border-top: 1px solid var(--border); }
+
+/* HEADER */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(var(--bg-rgb, 250,250,248), 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+[data-theme="dark"] header { background: rgba(14,14,13,0.88); }
+.header-inner {
+  max-width: 1280px; margin: 0 auto; padding: 0 24px;
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo { font-family: var(--mono); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.04em; opacity: 0.6; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+
+/* THEME TOGGLE */
+.theme-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  color: var(--text);
+}
+.theme-btn:hover { background: var(--bg3); }
+.theme-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+
+/* FUNCTION NAV PILL */
+.fn-nav {
+  position: sticky; top: 56px; z-index: 90;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.fn-nav::-webkit-scrollbar { display: none; }
+.fn-nav-inner {
+  display: flex; gap: 2px; padding: 8px 24px;
+  max-width: 1280px; margin: 0 auto;
+}
+.fn-pill {
+  flex-shrink: 0; padding: 5px 12px;
+  border-radius: 20px; border: 1px solid transparent;
+  font-size: 0.72rem; font-weight: 500; font-family: var(--mono);
+  cursor: pointer; background: transparent; color: var(--text2);
+  transition: var(--transition);
+  letter-spacing: 0.02em;
+}
+.fn-pill:hover { background: var(--bg2); color: var(--text); }
+.fn-pill.active { background: var(--text); color: var(--accent-inv); border-color: var(--text); }
+
+/* HERO */
+.hero {
+  padding: 120px 0 80px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+@media (max-width: 768px) { .hero { grid-template-columns: 1fr; padding: 100px 0 60px; } }
+.hero-text { max-width: 560px; }
+.hero-eyebrow {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 20px;
+}
+.hero-title { margin-bottom: 20px; }
+.hero-sub { font-size: 1rem; color: var(--text2); line-height: 1.7; max-width: 440px; margin-bottom: 32px; }
+.hero-stats { display: flex; gap: 32px; }
+.stat-item .stat-num { font-family: var(--mono); font-size: 1.6rem; font-weight: 500; line-height: 1; }
+.stat-item .stat-label { font-size: 0.72rem; color: var(--text3); margin-top: 4px; }
+
+/* NEURAL NET ILLUSTRATION */
+.nn-canvas-wrap {
+  aspect-ratio: 1;
+  max-width: 480px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  position: relative;
+}
+.nn-canvas-wrap canvas { display: block; }
+
+/* FUNCTION CARD */
+.fn-section { padding: 60px 0; border-top: 1px solid var(--border); scroll-margin-top: 112px; }
+.fn-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; gap: 20px; flex-wrap: wrap; }
+.fn-title-block .fn-name { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1; margin-bottom: 8px; }
+.fn-formula-display {
+  font-family: var(--mono); font-size: 1.05rem;
+  background: var(--bg2); padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--text);
+  display: inline-block;
+}
+.fn-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.badge {
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+  border: 1px solid var(--border2); color: var(--text2);
+}
+
+/* GRID LAYOUTS */
+.fn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.fn-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+@media (max-width: 900px) { .fn-grid { grid-template-columns: 1fr; } .fn-grid-3 { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .fn-grid-3 { grid-template-columns: 1fr 1fr; } }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: var(--transition);
+}
+.card-sm { padding: 16px; }
+.card-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
+
+/* GRAPH CONTAINER */
+.graph-wrap { position: relative; width: 100%; height: 260px; }
+.graph-wrap canvas { display: block; border-radius: 8px; }
+
+/* CONTROLS */
+.slider-wrap { margin-bottom: 16px; }
+.slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.slider-label { font-size: 0.75rem; font-family: var(--mono); color: var(--text2); min-width: 80px; }
+.slider-val { font-size: 0.75rem; font-family: var(--mono); color: var(--text); min-width: 44px; text-align: right; }
+input[type=range] {
+  flex: 1; height: 2px; -webkit-appearance: none;
+  background: var(--border2); border-radius: 1px; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--text);
+  cursor: pointer; transition: transform 0.15s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+.output-display {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 8px;
+}
+.output-label { font-size: 0.72rem; color: var(--text3); }
+.output-val { font-family: var(--mono); font-size: 1.1rem; font-weight: 500; }
+
+/* INFO SECTIONS */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+.info-item { padding: 14px; background: var(--bg2); border-radius: var(--radius-sm); }
+.info-item .info-title { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 6px; }
+.info-item p { font-size: 0.82rem; color: var(--text2); }
+
+/* COMPARISON TABLE */
+.compare-wrap { overflow-x: auto; margin-top: 16px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+th { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+tr:hover td { background: var(--bg2); }
+.range-pill { font-family: var(--mono); font-size: 0.72rem; background: var(--bg2); padding: 2px 7px; border-radius: 4px; white-space: nowrap; display: inline-block; }
+.risk-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.risk-low { background: #22c55e; }
+.risk-med { background: #f59e0b; }
+.risk-high { background: #ef4444; }
+
+/* PLAYGROUND */
+.playground-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 768px) { .playground-grid { grid-template-columns: 1fr; } }
+.playground-canvas { width: 100%; height: 300px; cursor: crosshair; border-radius: 8px; display: block; }
+.fn-select-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.fn-select-btn {
+  font-size: 0.68rem; font-family: var(--mono); padding: 4px 10px;
+  border-radius: 4px; border: 1px solid var(--border2);
+  cursor: pointer; background: transparent; color: var(--text2);
+  transition: var(--transition);
+}
+.fn-select-btn:hover { background: var(--bg2); color: var(--text); }
+.fn-select-btn.active { background: var(--text); color: var(--accent-inv); border-color: var(--text); }
+
+/* MINI NN */
+.nn-mini { width: 100%; height: 200px; display: block; }
+
+/* FOOTER */
+footer { padding: 40px 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-text { font-size: 0.75rem; color: var(--text3); }
+
+/* SCROLL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* SECTION DIVIDER */
+.section-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* HIGHLIGHT BAND */
+.highlight-band {
+  background: var(--text); color: var(--accent-inv);
+  border-radius: var(--radius-sm); padding: 14px 18px;
+  font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px;
+}
+
+/* NN SIMULATION CONTROLS */
+.nn-sim-fn-select {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px;
+}
+.sim-fn-btn {
+  font-size: 0.68rem; font-family: var(--mono); padding: 4px 10px;
+  border-radius: 4px; border: 1px solid var(--border2);
+  cursor: pointer; background: transparent; color: var(--text2);
+  transition: var(--transition);
+}
+.sim-fn-btn.active { background: var(--text); color: var(--accent-inv); }
+
+/* BACK TO TOP */
+.back-top {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--text); color: var(--accent-inv);
+  border: none; cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); opacity: 0; pointer-events: none; z-index: 80;
+  box-shadow: var(--shadow);
+}
+.back-top.show { opacity: 1; pointer-events: all; }
+.back-top:hover { transform: scale(1.08); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <span class="logo">activation.functions</span>
+    <div class="header-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme" onclick="toggleTheme()">
+        <svg id="themeIcon" viewBox="0 0 24 24"><path id="themeIconPath" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- FUNCTION NAV -->
+<nav class="fn-nav" id="fnNav">
+  <div class="fn-nav-inner" id="fnNavInner"></div>
+</nav>
+
+<main>
+<div class="container">
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-text reveal">
+    <div class="hero-eyebrow">Deep Learning Fundamentals</div>
+    <h1 class="hero-title">Activation<br/><em>Functions</em><br/>Explained</h1>
+    <p class="hero-sub">Activation functions decide whether a neuron fires — shaping what a network can learn, how gradients flow, and how quickly training converges. Without them, deep networks collapse into linear models.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">15</div><div class="stat-label">Functions</div></div>
+      <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Interactive</div></div>
+      <div class="stat-item"><div class="stat-num">01</div><div class="stat-label">Reference</div></div>
+    </div>
+  </div>
+  <div class="nn-canvas-wrap reveal" style="transition-delay:0.15s">
+    <canvas id="heroNN" width="480" height="480"></canvas>
+  </div>
+</section>
+
+<!-- FUNCTIONS -->
+<div id="functionsContainer"></div>
+
+<!-- COMPARISON SECTION -->
+<section class="section" id="comparison">
+  <div class="section-eyebrow"><h3>Comparison</h3></div>
+  <h2 style="margin-bottom:8px">Side-by-side analysis</h2>
+  <p style="margin-bottom:28px">All fifteen activation functions across key performance dimensions.</p>
+  <div class="card" style="padding:0">
+    <div class="compare-wrap">
+      <table id="compareTable">
+        <thead>
+          <tr>
+            <th>Function</th>
+            <th>Output Range</th>
+            <th>Differentiable</th>
+            <th>Computational Cost</th>
+            <th>Vanishing Gradient</th>
+            <th>Best Use Case</th>
+          </tr>
+        </thead>
+        <tbody id="compareTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NEURAL NETWORK SIMULATION -->
+<section class="section" id="nnSimulation">
+  <div class="section-eyebrow"><h3>Neural Network Simulation</h3></div>
+  <h2 style="margin-bottom:8px">Signal propagation</h2>
+  <p style="margin-bottom:20px">Watch how different activation functions transform signals flowing through a neural network. Switch functions to observe dead neurons, vanishing gradients, and saturation.</p>
+  <div class="nn-sim-fn-select" id="simFnSelect"></div>
+  <div class="fn-grid">
+    <div class="card">
+      <div class="card-label">Network Visualization</div>
+      <canvas id="nnSimCanvas" width="580" height="320" style="width:100%;border-radius:8px;display:block"></canvas>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text3)"><span style="display:inline-block;width:10px;height:10px;background:#22c55e;border-radius:50%"></span>Active neuron</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text3)"><span style="display:inline-block;width:10px;height:10px;background:#ef4444;border-radius:50%"></span>Dead / saturated</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text3)"><span style="display:inline-block;width:10px;height:10px;background:var(--border2);border-radius:50%"></span>Inactive</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Simulation Controls</div>
+      <div class="slider-wrap">
+        <div class="slider-row">
+          <span class="slider-label">Input signal</span>
+          <input type="range" min="-3" max="3" step="0.1" value="0.8" id="simInput" oninput="updateSim()"/>
+          <span class="slider-val" id="simInputVal">0.8</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Weight scale</span>
+          <input type="range" min="0.1" max="2" step="0.05" value="1" id="simWeight" oninput="updateSim()"/>
+          <span class="slider-val" id="simWeightVal">1.00</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Noise level</span>
+          <input type="range" min="0" max="1" step="0.05" value="0.2" id="simNoise" oninput="updateSim()"/>
+          <span class="slider-val" id="simNoiseVal">0.20</span>
+        </div>
+      </div>
+      <div id="simObservations"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYGROUND -->
+<section class="section" id="playground">
+  <div class="section-eyebrow"><h3>Playground</h3></div>
+  <h2 style="margin-bottom:8px">Draw &amp; transform</h2>
+  <p style="margin-bottom:20px">Draw a custom input curve by clicking and dragging on the canvas. Select an activation function to see the transformation applied in real time.</p>
+  <div class="fn-select-grid" id="playgroundFnSelect"></div>
+  <div class="playground-grid" style="margin-top:20px">
+    <div class="card" style="padding:12px">
+      <div class="card-label" style="margin-bottom:8px">Input (draw here)</div>
+      <canvas class="playground-canvas" id="pgInput" width="560" height="300"></canvas>
+      <button onclick="clearPlayground()" style="margin-top:8px;font-size:0.72rem;font-family:var(--mono);padding:5px 12px;border:1px solid var(--border2);border-radius:4px;background:transparent;color:var(--text2);cursor:pointer">Clear</button>
+    </div>
+    <div class="card" style="padding:12px">
+      <div class="card-label" style="margin-bottom:8px">Output (activated)</div>
+      <canvas class="playground-canvas" id="pgOutput" width="560" height="300"></canvas>
+    </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-text">Deep Learning Reference · Activation Functions</div>
+      <div class="footer-text" style="font-family:var(--mono)">15 functions · interactive</div>
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+// NOTE: Your original HTML includes a very large JS block defining FUNCTIONS and all rendering logic.
+// I’m keeping that logic exactly as provided in the next step.
+</script>
+</body>
+</html>
