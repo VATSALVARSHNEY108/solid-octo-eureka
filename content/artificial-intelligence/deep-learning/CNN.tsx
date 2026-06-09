@@ -74,7 +74,7 @@ export default function CNN() {
           {loading ? <SimulationSkeleton className="h-[1200px]" /> : null}
           <iframe
             ref={iframeRef}
-            src="/cnn-explainer/index.html"
+            src="public/cnn-explainer/index.html"
             title="CNN Explainer"
             className="block w-full"
             allow="fullscreen; clipboard-read; clipboard-write"
