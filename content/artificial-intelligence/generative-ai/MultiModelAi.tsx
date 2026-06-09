@@ -17,7 +17,7 @@ export default function MultiModelAi() {
             If the embed looks cropped, open it in a new tab:{" "}
             <a
               className="underline decoration-[var(--border-subtle)] underline-offset-4 hover:text-[var(--text-primary)]"
-              href="/distill/post--multimodal/index.html"
+              href="public/distill/post--multimodal/index.html"
               target="_blank"
               rel="noreferrer"
             >
