@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "ganlab-next/*": [
+        "./ganlab-next/*"
       ]
     },
     "strictNullChecks": true
