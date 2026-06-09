@@ -8,10 +8,10 @@ export default function MultiModelAi() {
             Generative AI
           </div>
           <h1 className="text-4xl font-black tracking-tight sm:text-6xl text-[var(--text-primary)]">
-            MultiModel AI
+            Multimodal AI
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[var(--text-secondary)]">
-            Interactive Distill article embed (post--multimodal).
+            Interactive Distill article embed for the post--multimodal lesson.
           </p>
           <p className="mt-3 text-sm text-[var(--text-secondary)]">
             If the embed looks cropped, open it in a new tab:{" "}
