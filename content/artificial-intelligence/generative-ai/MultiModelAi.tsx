@@ -11,17 +11,17 @@ export default function MultiModelAi() {
             Multimodal AI
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[var(--text-secondary)]">
-            Interactive Distill article embed for the post--multimodal lesson.
+            Interactive Distill article embed for the multimodal neurons lesson.
           </p>
           <p className="mt-3 text-sm text-[var(--text-secondary)]">
             If the embed looks cropped, open it in a new tab:{" "}
             <a
               className="underline decoration-[var(--border-subtle)] underline-offset-4 hover:text-[var(--text-primary)]"
-              href="public/distill/post--multimodal/index.html"
+              href="https://distill.pub/2021/multimodal-neurons/"
               target="_blank"
               rel="noreferrer"
             >
-              /distill/post--multimodal/index.html
+              https://distill.pub/2021/multimodal-neurons/
             </a>
           </p>
         </header>
@@ -29,7 +29,7 @@ export default function MultiModelAi() {
         <div className="mt-16 rounded-[2rem] border border-[var(--border-subtle)] bg-[var(--bg-primary)] shadow-premium overflow-hidden">
           <iframe
             title="Distill: Multimodal"
-            src="/distill/post--multimodal/index.html"
+            src="https://distill.pub/2021/multimodal-neurons/"
             className="block w-full h-[80vh] min-h-[720px] bg-[var(--bg-primary)]"
           />
         </div>
