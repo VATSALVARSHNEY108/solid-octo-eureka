@@ -6,6 +6,7 @@ import SimulationSkeleton from "@/components/SimulationSkeleton";
 export default function RNN() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [loading, setLoading] = useState(true);
+  const LIVE_SRC = "https://distill.pub/2019/memorization-in-rnns/";
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -61,11 +62,11 @@ export default function RNN() {
             If the embed looks cropped, open it in a new tab:{" "}
             <a
               className="underline decoration-[var(--border-subtle)] underline-offset-4 hover:text-[var(--text-primary)]"
-              href="/intro-to-rnn/index.html"
+              href={LIVE_SRC}
               target="_blank"
               rel="noreferrer"
             >
-              /intro-to-rnn/index.html
+              {LIVE_SRC}
             </a>
           </p>
         </header>
@@ -74,7 +75,7 @@ export default function RNN() {
           {loading ? <SimulationSkeleton className="h-[1200px]" /> : null}
           <iframe
             ref={iframeRef}
-            src="public/intro-to-rnn/index.html"
+            src={LIVE_SRC}
             title="Intro to RNN Explainer"
             className="block w-full"
             style={{
