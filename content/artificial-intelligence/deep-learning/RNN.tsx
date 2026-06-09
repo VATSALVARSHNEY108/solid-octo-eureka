@@ -74,7 +74,7 @@ export default function RNN() {
           {loading ? <SimulationSkeleton className="h-[1200px]" /> : null}
           <iframe
             ref={iframeRef}
-            src="/intro-to-rnn/index.html"
+            src="public/intro-to-rnn/index.html"
             title="Intro to RNN Explainer"
             className="block w-full"
             style={{
