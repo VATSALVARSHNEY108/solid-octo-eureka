@@ -112,6 +112,7 @@ export const TOPIC_LABELS: Record<string, string> = {
   "machine-learning/unsupervised": "Unsupervised Learning",
   "machine-learning/self-supervised": "Self‑Supervised Learning",
   "llm-and-nlp": "LLM and NLP",
+  "05-normalization": "Normalization",
 };
 
 export const TOPIC_DESCRIPTIONS: Record<string, string> = {
@@ -148,6 +149,8 @@ export const LESSON_ORDER: Record<string, string[]> = {
   // Deep Learning topic under artificial-intelligence
   "deep-learning": [
     "NeuralNetworks",
+    "CNN",
+    "RNN",
     "GAN",
     "Transformers"
   ],
