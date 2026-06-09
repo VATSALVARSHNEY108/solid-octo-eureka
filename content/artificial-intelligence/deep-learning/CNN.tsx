@@ -6,6 +6,7 @@ import SimulationSkeleton from "@/components/SimulationSkeleton";
 export default function CNN() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [loading, setLoading] = useState(true);
+  const LIVE_SRC = "https://poloclub.github.io/cnn-explainer/";
 
   useEffect(() => {
     const iframe = iframeRef.current;
@@ -61,11 +62,11 @@ export default function CNN() {
             If the embed looks cropped, open it in a new tab:{" "}
             <a
               className="underline decoration-[var(--border-subtle)] underline-offset-4 hover:text-[var(--text-primary)]"
-              href="/cnn-explainer/index.html"
+              href={LIVE_SRC}
               target="_blank"
               rel="noreferrer"
             >
-              /cnn-explainer/index.html
+              {LIVE_SRC}
             </a>
           </p>
         </header>
@@ -74,7 +75,7 @@ export default function CNN() {
           {loading ? <SimulationSkeleton className="h-[1200px]" /> : null}
           <iframe
             ref={iframeRef}
-            src="public/cnn-explainer/index.html"
+            src={LIVE_SRC}
             title="CNN Explainer"
             className="block w-full"
             allow="fullscreen; clipboard-read; clipboard-write"
