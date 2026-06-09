@@ -24,11 +24,7 @@
     ],
     "paths": {
       "@/*": [
-        "./*",
-        "ganlab-next/src/*"
-      ],
-      "ganlab-next/*": [
-        "./ganlab-next/*"
+        "./*"
       ]
     },
     "strictNullChecks": true
