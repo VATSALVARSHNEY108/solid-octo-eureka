@@ -1,50 +1,90 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import SimulationSkeleton from "../../../components/SimulationSkeleton";
+import SimulationSkeleton from "@/components/SimulationSkeleton";
 
 export default function RNN() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const handleLoad = () => setLoading(false);
     const iframe = iframeRef.current;
-    if (iframe) {
-      iframe.addEventListener('load', handleLoad);
-      // Sync iframe height to its content
-      const syncHeight = () => {
-        try {
-          const doc = iframe.contentDocument || iframe.contentWindow?.document;
-          if (doc) {
-            const height = doc.body.scrollHeight;
-            iframe.style.height = height + 'px';
-          }
-        } catch (e) {
-          console.error('Failed to sync iframe height', e);
-        }
-      };
-      const interval = setInterval(syncHeight, 500);
-      return () => {
-        iframe.removeEventListener('load', handleLoad);
-        clearInterval(interval);
-      };
-    }
+    if (!iframe) return;
+
+    const syncHeight = () => {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!doc) return;
+
+        const height = Math.max(
+          doc.documentElement.scrollHeight,
+          doc.body.scrollHeight
+        );
+        iframe.style.height = `${Math.max(1200, height)}px`;
+      } catch {
+        // Ignore cross-document access issues from the embedded app.
+      }
+    };
+
+    const onLoad = () => {
+      setLoading(false);
+      syncHeight();
+    };
+
+    iframe.addEventListener("load", onLoad);
+    const timer = window.setInterval(syncHeight, 500);
+    window.addEventListener("resize", syncHeight);
+
+    return () => {
+      iframe.removeEventListener("load", onLoad);
+      window.removeEventListener("resize", syncHeight);
+      window.clearInterval(timer);
+    };
   }, []);
 
   return (
-    <section className="w-full px-4 py-8 md:px-8">
-      <div className="w-full border border-[var(--border-primary)] bg-[var(--bg-primary)] relative">
-        {loading && <SimulationSkeleton className="h-[1200px]" />}
-        <iframe
-          ref={iframeRef}
-          src="/intro-to-rnn/index.html"
-          title="Intro to RNN Explainer"
-          className="w-full"
-          style={{ border: 0, height: "1200px", visibility: loading ? "hidden" : "visible" }}
-          onError={() => { console.error('Failed to load IntroToRNN'); setLoading(false); }}
-        />
-        <a href="/intro-to-rnn/index.html" target="_blank" className="mt-4 inline-block bg-[var(--bg-primary)] text-[var(--text-primary)] py-2 px-4 rounded hover:bg-[var(--bg-secondary)] transition-colors">Open IntroToRNN in New Tab</a>
+    <section className="px-12 py-24">
+      <div className="mx-auto max-w-6xl">
+        <header className="max-w-3xl">
+          <div className="mb-6 inline-flex items-center gap-3 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] px-5 py-2 text-[10px] font-black uppercase tracking-[0.35em] text-[var(--text-secondary)]">
+            <span className="inline-block size-2 rounded-full bg-[var(--text-primary)]" />
+            Deep Learning
+          </div>
+          <h1 className="text-4xl font-black tracking-tight sm:text-6xl text-[var(--text-primary)]">
+            RNN
+          </h1>
+          <p className="mt-6 text-lg leading-relaxed text-[var(--text-secondary)]">
+            Interactive RNN explainer embed with the same lesson framing as the
+            rest of the AI curriculum.
+          </p>
+          <p className="mt-3 text-sm text-[var(--text-secondary)]">
+            If the embed looks cropped, open it in a new tab:{" "}
+            <a
+              className="underline decoration-[var(--border-subtle)] underline-offset-4 hover:text-[var(--text-primary)]"
+              href="/intro-to-rnn/index.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              /intro-to-rnn/index.html
+            </a>
+          </p>
+        </header>
+
+        <div className="mt-16 rounded-[2rem] border border-[var(--border-subtle)] bg-[var(--bg-primary)] shadow-premium overflow-hidden relative">
+          {loading ? <SimulationSkeleton className="h-[1200px]" /> : null}
+          <iframe
+            ref={iframeRef}
+            src="/intro-to-rnn/index.html"
+            title="Intro to RNN Explainer"
+            className="block w-full"
+            style={{
+              border: 0,
+              height: "1200px",
+              visibility: loading ? "hidden" : "visible",
+            }}
+            onError={() => setLoading(false)}
+          />
+        </div>
       </div>
     </section>
   );
