@@ -6,19 +6,30 @@
 > ctrl-alt-learn@0.1.0 generate:lesson-loaders
 > node scripts/generate-lesson-loaders.mjs
 
-lib/lesson-loaders.generated.ts is up to date (2208 loaders).
+lib/lesson-loaders.generated.ts is up to date (1667 loaders).
 
 > ctrl-alt-learn@0.1.0 build
 > next build
 
-(node:18750) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspaces/4556/next.config.js is not specified and it doesn't parse as CommonJS.
-Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
-To eliminate this warning, add "type": "module" to /workspaces/4556/package.json.
-(Use `node --trace-warnings ...` to show where the warning was created)
-⨯ Another next build process is already running.
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
 
-  This could be:
-  - A next build still in progress
-  - A previous build that didn't exit cleanly
+▲ Next.js 16.2.7 (Turbopack)
 
-  Suggestion: Wait for the build to complete.
+  Creating an optimized production build ...
+✓ Compiled successfully in 21.4s
+  Running TypeScript ...
+Failed to type check.
+
+./content/artificial-intelligence/generative-ai/gan-lab.tsx:2:31
+Type error: Cannot find module '../../../ganlab-next/src/components/gan/GanVisualizer' or its corresponding type declarations.
+
+  [90m1 |[0m [36mimport[0m [33mReact[0m [36mfrom[0m [32m"react"[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { [33mGanVisualizer[0m } [36mfrom[0m [32m"../../../ganlab-next/src/components/gan/GanVisualizer"[0m;
+  [90m  |[0m                               [31m[1m^[0m
+  [90m3 |[0m
+  [90m4 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mGanLabLesson[0m() {
+  [90m5 |[0m   [36mreturn[0m (
+Next.js build worker exited with code: 1 and signal: null
