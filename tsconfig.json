@@ -41,8 +41,6 @@
     "lib/**/*.ts",
     "lib/**/*.tsx",
     "hooks/**/*.ts",
-    "ganlab-next/**/*.ts",
-    "ganlab-next/**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
